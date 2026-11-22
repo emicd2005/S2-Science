@@ -1,0 +1,2072 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Interactive revision for Cambridge IGCSE Co-ordinated Sciences (0654), S2 units 6-10.">
+<meta name="color-scheme" content="light dark">
+<style>
+  html{ -webkit-text-size-adjust:100%; }
+  body{ margin:0; padding:0; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+</style>
+<title>S2 Science Units 6-10</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: sticky unit nav + one scrolling column of rounded cards; one accent hue per subtopic. */
+:root{
+  --bg:#f5f7fb; --surface:#ffffff; --surface2:#edf1f8; --surface3:#e3e9f3;
+  --ink:#101a2b; --ink2:#3f4e66; --muted:#6a7a93; --line:#d8e0ec;
+  --ok:#15803d; --okbg:#e7f6ec; --bad:#b4252a; --badbg:#fdecec; --warn:#9a5b00;
+  --ac-raw:#2563eb; --ac:var(--ac-raw);
+  --f-ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-math:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --r:16px; --r-s:11px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0d1422; --surface:#151e2e; --surface2:#1c2738; --surface3:#243044;
+  --ink:#e9eef7; --ink2:#b9c5d8; --muted:#8d9cb3; --line:#2c3a52;
+  --ok:#5fd68a; --okbg:#143021; --bad:#ff9ea1; --badbg:#3a1a1c; --warn:#f0b957;
+  --ac:color-mix(in srgb,var(--ac-raw) 62%,#ffffff); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0d1422; --surface:#151e2e; --surface2:#1c2738; --surface3:#243044;
+  --ink:#e9eef7; --ink2:#b9c5d8; --muted:#8d9cb3; --line:#2c3a52;
+  --ok:#5fd68a; --okbg:#143021; --bad:#ff9ea1; --badbg:#3a1a1c; --warn:#f0b957;
+  --ac:color-mix(in srgb,var(--ac-raw) 62%,#ffffff); color-scheme:dark;
+}
+/* accent must be re-derived wherever --ac-raw is set, or every section would inherit the root accent */
+.view,.unitcard,.subbtn,.chip,.rc{--ac:var(--ac-raw)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .view,
+ :root:not([data-theme="light"]) .unitcard,:root:not([data-theme="light"]) .subbtn,
+ :root:not([data-theme="light"]) .chip,:root:not([data-theme="light"]) .rc{--ac:color-mix(in srgb,var(--ac-raw) 62%,#ffffff)}}
+:root[data-theme="dark"] .view,:root[data-theme="dark"] .unitcard,:root[data-theme="dark"] .subbtn,
+:root[data-theme="dark"] .chip,:root[data-theme="dark"] .rc{--ac:color-mix(in srgb,var(--ac-raw) 62%,#ffffff)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:17.5px;line-height:1.5;-webkit-text-size-adjust:100%}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---------- header ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:12;background:var(--surface)}
+.appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--surface);border-bottom:1px solid var(--line)}
+.appbar .wrap{padding-block:9px}
+.brandrow{display:flex;align-items:center;gap:10px;min-height:34px}
+.brand{font-size:15.5px;font-weight:700;letter-spacing:.2px}
+.brand span{color:var(--muted);font-weight:600}
+.homebtn{margin-left:auto;display:inline-flex;align-items:center;gap:6px;background:var(--surface2);color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font:inherit;font-size:14.5px;font-weight:600;cursor:pointer}
+.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;padding:8px 0 2px;margin:0 -2px;scroll-padding-inline:8px}
+.chips::-webkit-scrollbar{height:5px}
+.chips::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:999px;padding:9px 13px;font:inherit;font-size:14.5px;font-weight:600;cursor:pointer;white-space:nowrap;min-height:40px}
+.chip b{font-weight:800;color:var(--ink)}
+.chip[aria-current="true"]{background:var(--ac-raw);border-color:var(--ac-raw);color:#fff}
+.chip[aria-current="true"] b{color:#fff}
+.unitsep{flex:0 0 auto;align-self:center;font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--muted);padding:0 2px}
+
+/* ---------- views ---------- */
+main{padding-block:18px 56px}
+.view{display:flex;flex-direction:column;gap:16px}
+.subhead{display:flex;flex-direction:column;gap:7px}
+.tagrow{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.tag{display:inline-block;background:var(--ac-raw);color:#fff;border-radius:999px;padding:4px 11px;font-size:13px;font-weight:800;letter-spacing:.04em}
+.tag.sci{background:var(--surface3);color:var(--ink2)}
+.ext{display:inline-block;background:var(--surface3);color:var(--ink);border:1px dashed var(--ac);border-radius:7px;padding:1px 7px;font-size:12.5px;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+h2.title{font-size:25px;line-height:1.18;font-weight:800;letter-spacing:-.01em}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.lbl{font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-bottom:8px}
+.lbl.n{color:var(--muted)}
+.bigidea{background:var(--surface2);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;border-top:3px solid var(--ac-raw)}
+.bigidea .t{font-size:19.5px;font-weight:700;line-height:1.35}
+.sec{display:flex;flex-direction:column;gap:12px}
+
+/* ---------- figures ---------- */
+.fig{margin:0}
+.fig .box{overflow-x:auto;background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-s);padding:12px}
+.fig svg{display:block;width:100%;height:auto;min-width:290px;max-width:100%}
+figcaption{font-size:14.5px;color:var(--muted);margin-top:7px}
+svg text{font-family:var(--f-ui)}
+.sv-lbl{fill:var(--ink);font-size:14px;font-weight:600}
+.sv-sm{fill:var(--ink2);font-size:12.5px;font-weight:600}
+.sv-mut{fill:var(--muted);font-size:12px;font-weight:600}
+.sv-acl{fill:var(--ac);font-size:13px;font-weight:800}
+.sv-ln{fill:none;stroke:var(--line);stroke-width:1.6}
+.sv-ax{fill:none;stroke:var(--ink2);stroke-width:2}
+.sv-gr{fill:none;stroke:var(--line);stroke-width:1}
+.sv-ac{fill:none;stroke:var(--ac);stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}
+.sv-acd{fill:none;stroke:var(--ac);stroke-width:2;stroke-dasharray:5 4}
+.sv-fill{fill:var(--ac);opacity:.16;stroke:none}
+.sv-box{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+.sv-box2{fill:var(--surface3);stroke:var(--line);stroke-width:1.5}
+.sv-dot{fill:var(--ink);stroke:none}
+.sv-pos{fill:#e4572e;stroke:none}
+.sv-neg{fill:#2f6fd0;stroke:none}
+.sv-wt{fill:#fff;font-size:14px;font-weight:800}
+.sv-arr{fill:var(--ink2);stroke:none}
+.sv-arrac{fill:var(--ac);stroke:none}
+
+/* ---------- tables ---------- */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-s);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface2);font-size:14.5px;font-weight:800;color:var(--ink)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.rowlab{font-weight:800;color:var(--ac)}
+
+/* ---------- flip cards ---------- */
+.flips{display:grid;grid-template-columns:1fr;gap:11px}
+@media(min-width:620px){.flips{grid-template-columns:1fr 1fr}}
+.flip{position:relative;perspective:900px;min-height:116px}
+.flip>button{position:absolute;inset:0;width:100%;height:100%;background:none;border:0;padding:0;cursor:pointer;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.3,.8,.3,1);font:inherit;color:inherit;text-align:left;border-radius:var(--r-s)}
+.flip.on>button{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--r-s);border:1px solid var(--line);padding:13px 14px;display:flex;flex-direction:column;gap:5px;justify-content:center}
+.face.f{background:var(--surface2)}
+.face.b{background:var(--surface);transform:rotateY(180deg);border-color:var(--ac)}
+.face .term{font-size:17.5px;font-weight:800;line-height:1.25}
+.face .def{font-size:16px;color:var(--ink2);line-height:1.4}
+.face .hint{font-size:12.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+@media(prefers-reduced-motion:reduce){.flip>button{transition:none}}
+.flip.meas{min-height:0}
+.flip.meas>button{position:static;height:auto;transform:none;transition:none}
+.flip.meas .face{position:static;transform:none}
+
+/* ---------- formulas ---------- */
+.fbox{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ac-raw);border-radius:var(--r-s);padding:13px 14px;display:flex;flex-direction:column;gap:9px}
+.fname{font-size:14.5px;font-weight:800;color:var(--ink2)}
+.eq{font-family:var(--f-math);font-size:25px;line-height:1.5;color:var(--ink);display:block}
+.eq sub,.eq sup{font-size:.62em}
+.eq.sm{font-size:21px}
+.v{font-family:var(--f-math);font-style:italic;font-weight:600}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.1;margin:0 .1em}
+.frac>span{padding:0 .3em;display:block;text-align:center}
+.frac>.n{border-bottom:1.6px solid currentColor;padding-bottom:1px}
+.frac>.d{padding-top:1px}
+.syms{display:flex;flex-direction:column;gap:4px;font-size:15.5px;color:var(--ink2)}
+.syms div{display:flex;gap:8px;align-items:baseline}
+.syms .s{flex:0 0 auto;min-width:2.1em;font-family:var(--f-math);font-style:italic;font-weight:700;color:var(--ink)}
+.note{font-size:14.5px;color:var(--muted)}
+.unitnote{background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-s);padding:10px 12px;font-size:15.5px;color:var(--ink2)}
+
+/* ---------- worked example ---------- */
+.work{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px}
+.stem{font-size:17.5px;font-weight:600;line-height:1.45}
+.steps{display:flex;flex-direction:column;gap:9px}
+.step{background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-s);padding:11px 13px;display:flex;gap:10px}
+.step .k{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ac-raw);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step .bd{display:flex;flex-direction:column;gap:5px}
+.step .h{font-weight:800;font-size:16.5px}
+.step .t{font-size:16.5px;color:var(--ink2)}
+.step.fin{background:var(--okbg);border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.step.fin .k{background:var(--ok)}
+.btnrow{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.btn{font:inherit;font-size:16px;font-weight:700;border-radius:999px;padding:11px 18px;min-height:46px;cursor:pointer;border:1px solid var(--ac-raw);background:var(--ac-raw);color:#fff}
+.btn.ghost{background:var(--surface2);color:var(--ink);border-color:var(--line)}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn:focus-visible,.chip:focus-visible,.opt:focus-visible,.flip>button:focus-visible,input:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.prog{font-size:14.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ---------- watch out ---------- */
+.watch{display:flex;flex-direction:column;gap:10px}
+.wrow{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-s);padding:12px 13px;display:flex;flex-direction:column;gap:6px}
+.wrow .x,.wrow .y{display:flex;gap:9px;font-size:16.5px;line-height:1.4}
+.wrow .x{color:var(--bad);font-weight:600}
+.wrow .y{color:var(--ok);font-weight:700}
+.wrow .ic{flex:0 0 auto;font-size:15px}
+
+/* ---------- questions ---------- */
+.q{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px}
+.qtop{display:flex;gap:9px;align-items:baseline}
+.qn{flex:0 0 auto;font-size:14px;font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
+.qt{font-size:17.5px;font-weight:600;line-height:1.45}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;gap:11px;align-items:flex-start;text-align:left;font:inherit;font-size:17px;background:var(--surface2);border:1.5px solid var(--line);color:var(--ink);border-radius:var(--r-s);padding:12px 13px;cursor:pointer;min-height:48px;width:100%}
+.opt .k{flex:0 0 auto;width:27px;height:27px;border-radius:8px;background:var(--surface3);color:var(--ink2);font-size:14.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.opt.good{border-color:var(--ok);background:var(--okbg)}
+.opt.good .k{background:var(--ok);color:#fff}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.opt.bad .k{background:var(--bad);color:#fff}
+.opt.dim{opacity:.55}
+.fb{border-radius:var(--r-s);padding:11px 13px;font-size:16.5px;line-height:1.45;border:1px solid var(--line);background:var(--surface2)}
+.fb.good{background:var(--okbg);border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.fb.bad{background:var(--badbg);border-color:color-mix(in srgb,var(--bad) 40%,var(--line))}
+.fb b{font-weight:800}
+.numrow{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+input[type=text]{font:inherit;font-size:17px;padding:11px 13px;border-radius:var(--r-s);border:1.5px solid var(--line);background:var(--surface2);color:var(--ink);width:150px;font-variant-numeric:tabular-nums}
+.uni{font-size:16.5px;font-weight:700;color:var(--ink2)}
+.sol{display:flex;flex-direction:column;gap:7px}
+.sol li{font-size:16.5px;color:var(--ink2);line-height:1.45}
+ul,ol{margin:0;padding-left:1.25em}
+li{margin:3px 0}
+
+/* ---------- home ---------- */
+.homehero{display:flex;flex-direction:column;gap:9px}
+.homehero h1{font-size:27px;font-weight:800;letter-spacing:-.015em;line-height:1.15}
+.homehero .sub{font-size:16.5px;color:var(--muted)}
+.unitcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px;display:flex;flex-direction:column;gap:11px}
+.unitcard .uh{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.unitcard .uc{font-size:13px;font-weight:800;letter-spacing:.06em;color:#fff;background:var(--ac-raw);border-radius:999px;padding:3px 10px}
+.unitcard .un{font-size:19px;font-weight:800}
+.sublist{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:620px){.sublist{grid-template-columns:1fr 1fr}}
+.subbtn{display:flex;gap:10px;align-items:center;text-align:left;font:inherit;background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-s);padding:12px 13px;cursor:pointer;color:var(--ink);min-height:50px}
+.subbtn .c{flex:0 0 auto;font-size:13px;font-weight:800;color:#fff;background:var(--ac-raw);border-radius:7px;padding:3px 7px;font-variant-numeric:tabular-nums}
+.subbtn .t{font-size:16.5px;font-weight:700;line-height:1.25}
+.twocol{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:620px){.twocol{grid-template-columns:1fr 1fr}}
+
+/* ---------- checklist ---------- */
+details.must{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:0 14px}
+details.must>summary{cursor:pointer;padding:14px 0;font-size:16px;font-weight:800;color:var(--ink2);list-style:none;display:flex;align-items:center;gap:8px}
+details.must>summary::-webkit-details-marker{display:none}
+details.must>summary::before{content:"+";font-size:19px;font-weight:800;color:var(--ac);width:1em;text-align:center}
+details.must[open]>summary::before{content:"\2212"}
+details.must ul{padding:0 0 14px 1.1em}
+details.must li{font-size:15.5px;color:var(--ink2)}
+details.must li .ext{font-size:11.5px;padding:0 5px;margin-right:5px}
+
+/* ---------- quiz / recap ---------- */
+.scorebox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.scorebig{font-size:40px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.bar{height:11px;border-radius:999px;background:var(--surface3);overflow:hidden;width:100%}
+.bar>i{display:block;height:100%;background:var(--ac-raw);border-radius:999px}
+.rev{display:flex;flex-direction:column;gap:7px;width:100%}
+.rev div{font-size:15.5px;display:flex;gap:9px;align-items:baseline;color:var(--ink2)}
+.recapgrid{display:grid;grid-template-columns:1fr;gap:11px}
+@media(min-width:720px){.recapgrid{grid-template-columns:1fr 1fr}}
+.rc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-s);padding:13px;display:flex;flex-direction:column;gap:7px;break-inside:avoid}
+.rc .rh{display:flex;gap:8px;align-items:baseline}
+.rc .rh .c{font-size:12.5px;font-weight:800;color:#fff;background:var(--ac-raw);border-radius:6px;padding:2px 6px}
+.rc .rh .t{font-size:16.5px;font-weight:800;line-height:1.2}
+.rc ul{padding-left:1.05em}
+.rc li{font-size:15px;color:var(--ink2);line-height:1.4}
+.rc li b{color:var(--ink)}
+
+/* ---------- print ---------- */
+@media print{
+  :root{--bg:#fff;--surface:#fff;--surface2:#fff;--surface3:#f0f0f0;--ink:#000;--ink2:#1a1a1a;--muted:#444;--line:#999}
+  body{font-size:11pt}
+  .appbar,.chips,.homebtn,.no-print{display:none!important}
+  main{padding-block:0}
+  .view[hidden]{display:flex!important}
+  .step[hidden],.q[hidden]{display:flex!important}
+  .sol[hidden]{display:block!important}
+  .fb{display:none!important}
+  .card,.work,.q,.unitcard,.rc,.scorebox,.fbox{break-inside:avoid;page-break-inside:avoid}
+  .view{break-before:page;page-break-before:always}
+  #v-c24{break-before:auto;page-break-before:auto}
+  #v-home,#qdone,.bar,.prog{display:none!important}
+  details.must{display:none}
+  .flip{min-height:0!important;perspective:none}
+  .flip>button{position:static;transform:none!important;display:block;height:auto}
+  .face{position:static;transform:none!important;border-radius:var(--r-s)}
+  .face.f{border-bottom:0;border-radius:var(--r-s) var(--r-s) 0 0}
+  .face.b{border-radius:0 0 var(--r-s) var(--r-s)}
+  .opt{min-height:0;padding:6px 8px}
+  .opt[data-correct="1"] .k{background:#000;color:#fff}
+  .opt[data-correct="1"]::after{content:"\2190 correct";font-weight:800;margin-left:auto;font-size:10pt}
+  .btn{display:none!important}
+}
+</style>
+</head>
+<body>
+<header class="appbar">
+  <div class="wrap">
+    <div class="brandrow">
+      <div class="brand">IGCSE Co-ordinated Sciences <span>0654</span></div>
+      <button class="homebtn" id="btn-home" type="button">All units</button>
+    </div>
+    <nav class="chips" id="chips" aria-label="Subtopics"></nav>
+  </div>
+</header>
+<main class="wrap"><div id="views"></div></main>
+<script>
+/* ================= SVG helpers ================= */
+var P={L:44,R:316,T:18,B:176,W:330,H:212};
+function r2(n){return Math.round(n*10)/10}
+function gx(v,m){return r2(P.L+(v/m)*(P.R-P.L))}
+function gy(v,m){return r2(P.B-(v/m)*(P.B-P.T))}
+function sv(w,h,b){return '<svg viewBox="0 0 '+w+' '+h+'" aria-hidden="true" focusable="false">'+b+'</svg>'}
+function arrow(x1,y1,x2,y2,cls,fcls){
+  var a=Math.atan2(y2-y1,x2-x1),h=9,w=4.8;
+  var bx=x2-h*Math.cos(a),by=y2-h*Math.sin(a);
+  var sx=-Math.sin(a)*w,sy=Math.cos(a)*w;
+  return '<line class="'+(cls||'sv-ax')+'" x1="'+r2(x1)+'" y1="'+r2(y1)+'" x2="'+r2(bx)+'" y2="'+r2(by)+'"/>'+
+    '<polygon class="'+(fcls||'sv-arr')+'" points="'+r2(x2)+','+r2(y2)+' '+r2(bx+sx)+','+r2(by+sy)+' '+r2(bx-sx)+','+r2(by-sy)+'"/>';
+}
+function frame(o){
+  var s='',i;
+  (o.yticks||[]).forEach(function(v){var y=gy(v,o.ymax);
+    s+='<line class="sv-gr" x1="'+P.L+'" y1="'+y+'" x2="'+P.R+'" y2="'+y+'"/>';
+    s+='<text class="sv-mut" x="'+(P.L-7)+'" y="'+(y+4)+'" text-anchor="end">'+v+'</text>';});
+  (o.xticks||[]).forEach(function(v){var x=gx(v,o.xmax);
+    s+='<line class="sv-gr" x1="'+x+'" y1="'+P.T+'" x2="'+x+'" y2="'+P.B+'"/>';
+    s+='<text class="sv-mut" x="'+x+'" y="'+(P.B+17)+'" text-anchor="middle">'+v+'</text>';});
+  s+='<line class="sv-ax" x1="'+P.L+'" y1="'+P.T+'" x2="'+P.L+'" y2="'+P.B+'"/>';
+  s+='<line class="sv-ax" x1="'+P.L+'" y1="'+P.B+'" x2="'+P.R+'" y2="'+P.B+'"/>';
+  s+='<text class="sv-sm" x="'+P.R+'" y="'+(P.B+34)+'" text-anchor="end">'+o.xl+'</text>';
+  s+='<text class="sv-sm" x="14" y="'+P.T+'" transform="rotate(-90 14 '+P.T+')" text-anchor="end">'+o.yl+'</text>';
+  return s;
+}
+function ion(cx,cy,r,label,marks,charge){
+  var s='<circle class="sv-ln" cx="'+cx+'" cy="'+cy+'" r="'+r+'"/>';
+  s+='<text class="sv-lbl" x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle">'+label+'</text>';
+  (marks||[]).forEach(function(m){
+    var a=m.a*Math.PI/180,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);
+    if(m.t==='d'){s+='<circle class="sv-dot" cx="'+r2(x)+'" cy="'+r2(y)+'" r="3.7"/>';}
+    else{s+='<path d="M'+r2(x-3.8)+' '+r2(y-3.8)+'l7.6 7.6M'+r2(x+3.8)+' '+r2(y-3.8)+'l-7.6 7.6" style="stroke:var(--ink);stroke-width:2.2;fill:none"/>';}
+  });
+  if(charge){s+='<text class="sv-acl" x="'+(cx+r+5)+'" y="'+(cy-r+6)+'">'+charge+'</text>';}
+  return s;
+}
+function pathway(o){
+  var yE=function(v){return r2(172-(v/100)*(172-34))};
+  var yR=yE(o.r),yP=yE(o.p),yK=yE(o.k);
+  var s=frameLite();
+  s+='<path class="sv-ac" d="M48 '+yR+' H104 C134 '+yR+' 142 '+yK+' 166 '+yK+' C190 '+yK+' 198 '+yP+' 228 '+yP+' H304"/>';
+  s+='<text class="sv-sm" x="48" y="'+(yR-9)+'">Reactants</text>';
+  s+='<text class="sv-sm" x="304" y="'+(yP+(o.exo?20:-9))+'" text-anchor="end">Products</text>';
+  s+=arrow(166,yR,166,yK+2,'sv-acd','sv-arrac')+arrow(166,yK,166,yR-2,'sv-acd','sv-arrac');
+  s+='<text class="sv-acl" x="166" y="'+r2(yK-13)+'" text-anchor="middle">E<tspan baseline-shift="sub" font-size="10">a</tspan></text>';
+  s+=arrow(266,yR,266,yP+(o.exo?-2:2),'sv-acd','sv-arrac');
+  s+='<text class="sv-acl" x="274" y="'+r2((yR+yP)/2)+'">ΔH '+(o.exo?'−':'+')+'</text>';
+  s+='<line class="sv-gr" x1="48" y1="'+yR+'" x2="300" y2="'+yR+'"/>';
+  s+='<line class="sv-gr" x1="48" y1="'+yP+'" x2="300" y2="'+yP+'"/>';
+  return sv(330,206,s);
+}
+function frameLite(){
+  var s='<line class="sv-ax" x1="40" y1="20" x2="40" y2="186"/><line class="sv-ax" x1="40" y1="186" x2="316" y2="186"/>';
+  s+='<text class="sv-sm" x="316" y="202" text-anchor="end">progress of reaction</text>';
+  s+='<text class="sv-sm" x="12" y="20" transform="rotate(-90 12 20)" text-anchor="end">energy</text>';
+  return s;
+}
+function beam(o){
+  var s='',x=function(cm){return r2(28+(cm/100)*274)};
+  s+='<rect class="sv-box2" x="'+x(0)+'" y="84" width="'+(x(100)-x(0))+'" height="16" rx="3"/>';
+  [0,20,40,60,80,100].forEach(function(c){
+    s+='<line class="sv-ax" x1="'+x(c)+'" y1="100" x2="'+x(c)+'" y2="106" style="stroke-width:1.4"/>';
+    s+='<text class="sv-mut" x="'+x(c)+'" y="118" text-anchor="middle">'+c+'</text>';});
+  s+='<polygon class="sv-box2" points="'+x(o.pivot)+',102 '+(x(o.pivot)-13)+',128 '+(x(o.pivot)+13)+',128"/>';
+  s+='<text class="sv-sm" x="'+x(o.pivot)+'" y="144" text-anchor="middle">pivot</text>';
+  s+='<text class="sv-mut" x="'+x(50)+'" y="164" text-anchor="middle">distance along beam / cm</text>';
+  (o.forces||[]).forEach(function(f){
+    var fx=x(f.at);
+    s+=arrow(fx,56,fx,84,f.q?'sv-acd':'sv-ax',f.q?'sv-arrac':'sv-arr');
+    s+='<text class="'+(f.q?'sv-acl':'sv-lbl')+'" x="'+fx+'" y="48" text-anchor="middle">'+f.lab+'</text>';
+    if(f.q){s+='<text class="sv-acl" x="'+Math.min(fx+6,300)+'" y="30" text-anchor="middle">at which mark?</text>';}
+  });
+  return sv(330,174,s);
+}
+/* ================= content ================= */
+var UNITS=[
+ {code:'S2.6',name:'Making and breaking bonds',ac:'#6d28d9',subs:['c24','c71','c51']},
+ {code:'S2.7',name:'Movement',ac:'#2563eb',subs:['p12','p151','p152','p153']},
+ {code:'S2.8',name:'Spreading and stopping disease',ac:'#16a34a',subs:['b101','b141']},
+ {code:'S2.9',name:'Cellular reactions',ac:'#0e9488',subs:['b51','b121']},
+ {code:'S2.10',name:'Making things move',ac:'#e11d48',subs:['p161','p162','p163','p164','p17']}
+];
+var SUBS={};
+
+SUBS.c24={code:'C2.4',title:'Ions and ionic bonds',unit:'S2.6',sci:'Chemistry',ac:'#6d28d9',
+ big:'Metals give electrons away, non-metals take them, then opposite charges lock together.',
+ visuals:[
+  {cap:'Group I + Group VII: one electron is transferred. Dots = sodium electrons, crosses = chlorine electrons.',
+   svg:sv(330,208,
+    ion(66,62,30,'Na',[{t:'d',a:-90}])+
+    ion(248,62,30,'Cl',[{t:'x',a:-90},{t:'x',a:-39},{t:'x',a:12},{t:'x',a:63},{t:'x',a:114},{t:'x',a:165},{t:'x',a:216}])+
+    arrow(104,62,206,62,'sv-ac','sv-arrac')+
+    '<text class="sv-acl" x="155" y="50" text-anchor="middle">1 electron</text>'+
+    '<text class="sv-mut" x="66" y="112" text-anchor="middle">1 outer electron</text>'+
+    '<text class="sv-mut" x="248" y="112" text-anchor="middle">7 outer electrons</text>'+
+    '<rect class="sv-box" x="36" y="134" width="90" height="52" rx="10"/>'+
+    '<text class="sv-lbl" x="81" y="166" text-anchor="middle">Na<tspan baseline-shift="super" font-size="11">+</tspan></text>'+
+    '<rect class="sv-box" x="188" y="134" width="90" height="52" rx="10"/>'+
+    '<text class="sv-lbl" x="233" y="166" text-anchor="middle">Cl<tspan baseline-shift="super" font-size="11">−</tspan></text>'+
+    arrow(132,160,182,160,'sv-acd','sv-arrac')+arrow(182,160,132,160,'sv-acd','sv-arrac')+
+    '<text class="sv-acl" x="157" y="196" text-anchor="middle">ionic bond</text>'+
+    '<text class="sv-mut" x="157" y="144" text-anchor="middle">strong attraction</text>')},
+  {cap:'Giant ionic lattice of sodium chloride: a regular pattern of alternating ions, extending in all directions.',
+   svg:(function(){var s='',i,j,cx,cy;
+    for(j=0;j<4;j++){s+='<line class="sv-gr" x1="46" y1="'+(26+j*42)+'" x2="284" y2="'+(26+j*42)+'"/>';}
+    for(i=0;i<4;i++){s+='<line class="sv-gr" x1="'+(46+i*79.3)+'" y1="26" x2="'+(46+i*79.3)+'" y2="152"/>';}
+    for(j=0;j<4;j++){for(i=0;i<4;i++){cx=r2(46+i*79.3);cy=26+j*42;
+      var pos=(i+j)%2===0;
+      s+='<circle class="'+(pos?'sv-pos':'sv-neg')+'" cx="'+cx+'" cy="'+cy+'" r="'+(pos?13:16)+'"/>';
+      s+='<text class="sv-wt" x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle">'+(pos?'+':'−')+'</text>';}}
+    s+='<circle class="sv-pos" cx="52" cy="186" r="13"/><text class="sv-wt" x="52" y="191" text-anchor="middle">+</text>';
+    s+='<text class="sv-sm" x="70" y="191">= Na<tspan baseline-shift="super" font-size="10">+</tspan></text>';
+    s+='<circle class="sv-neg" cx="170" cy="186" r="16"/><text class="sv-wt" x="170" y="191" text-anchor="middle">−</text>';
+    s+='<text class="sv-sm" x="191" y="191">= Cl<tspan baseline-shift="super" font-size="10">−</tspan></text>';
+    return sv(330,210,s);})()}
+ ],
+ tables:[{cap:'Charge you can predict from the group number.',
+   head:['Group','Ion formed','Example'],
+   rows:[['I','1+ cation','Na<sup>+</sup>, K<sup>+</sup>'],['II','2+ cation','Mg<sup>2+</sup>, Ca<sup>2+</sup>'],['III','3+ cation','Al<sup>3+</sup>'],['VI','2− anion','O<sup>2−</sup>, S<sup>2−</sup>'],['VII','1− anion','Cl<sup>−</sup>, Br<sup>−</sup>']]}],
+ terms:[
+  {t:'Cation',d:'Positive ion. An atom that has <b>lost</b> electrons.'},
+  {t:'Anion',d:'Negative ion. An atom that has <b>gained</b> electrons.'},
+  {t:'Ionic bond',d:'Strong <b>electrostatic attraction</b> between oppositely charged ions.'},
+  {t:'Giant lattice',d:'Regular 3D pattern of alternating positive and negative ions.',ext:true},
+  {t:'Dot-and-cross diagram',d:'Shows transferred electrons: dots from one atom, crosses from the other.'},
+  {t:'Why high melting point?',d:'Many strong ionic bonds need a lot of energy to break.',ext:true},
+  {t:'Why conducts when molten?',d:'Ions become <b>free to move</b> and carry charge; in a solid they are fixed.',ext:true}
+ ],
+ work:{stem:'Magnesium reacts with chlorine. Describe the ionic bonding in magnesium chloride and give its formula.',
+  steps:[
+   {h:'Metal loses electrons',t:'Mg is in Group II, so it loses 2 electrons and becomes Mg<sup>2+</sup>.'},
+   {h:'Non-metal gains electrons',t:'Cl is in Group VII, so each Cl gains 1 electron and becomes Cl<sup>−</sup>.'},
+   {h:'Balance the charges',t:'One 2+ needs two 1− ions, so 2 chloride ions per magnesium ion.'},
+   {h:'Formula',t:'MgCl<sub>2</sub>. Dot-and-cross: 2 dots move from Mg to the two Cl atoms.',fin:true},
+   {h:'Name the bond',t:'Strong electrostatic attraction between Mg<sup>2+</sup> and Cl<sup>−</sup> in a giant lattice.',fin:true}
+  ]},
+ watch:[
+  {x:'Ionic bonding means electrons are shared.',v:'Electrons are <b>transferred</b>, not shared.'},
+  {x:'Solid NaCl conducts electricity.',v:'Only when <b>molten or aqueous</b> — the ions must be free to move.'},
+  {x:'Writing NaCl as a molecule.',v:'It is a <b>giant lattice</b> of many ions, not a molecule.'}
+ ],
+ qc:[
+  {q:'Which row is correctly recorded?',
+   tbl:{head:['','Element','Ion formed','Electrons'],rows:[['A','sodium','Na<sup>+</sup>','1 lost'],['B','chlorine','Cl<sup>+</sup>','1 gained'],['C','magnesium','Mg<sup>−</sup>','2 lost'],['D','oxygen','O<sup>+</sup>','2 gained']]},
+   opts:['A','B','C','D'],correct:0,
+   why:['Sodium loses its 1 outer electron, so it becomes the positive ion Na<sup>+</sup>.',
+    'Chlorine <b>gains</b> an electron, so it becomes negative: Cl<sup>−</sup>.',
+    'Losing electrons gives a <b>positive</b> ion: Mg<sup>2+</sup>.',
+    'Gaining electrons gives a <b>negative</b> ion: O<sup>2−</sup>.']},
+  {q:'Molten sodium chloride conducts electricity. Why?',
+   opts:['The ions are free to move and carry charge','Electrons are shared between the atoms','The atoms melt into metal','The ions lose their charge when heated'],correct:0,
+   why:['Melting frees the ions from the lattice, so charge can move through the liquid.',
+    'Sharing electrons is covalent bonding; NaCl is ionic.',
+    'A molten ionic compound is still made of ions, not metal atoms.',
+    'Heating does not remove charge — the ions keep it.']},
+  {q:'Which statement about the sodium chloride lattice is correct?',ext:true,
+   opts:['Positive and negative ions alternate in a regular arrangement','NaCl molecules are held together by weak forces','Electrons move freely between the ions','Each Na<sup>+</sup> ion touches only one Cl<sup>−</sup> ion'],correct:0,
+   why:['Each ion is surrounded by oppositely charged ions in a repeating 3D pattern.',
+    'There are no NaCl molecules, and the ionic forces are <b>strong</b>.',
+    'Free electrons are found in metals, not in ionic lattices.',
+    'Each ion is surrounded by <b>six</b> oppositely charged neighbours in NaCl.']}
+ ],
+ must:[{t:'Describe how cations (+) and anions (−) form'},{t:'Ionic bond = strong electrostatic attraction between opposite ions'},
+  {t:'Dot-and-cross diagrams for Group I + Group VII'},{t:'Dot-and-cross for any metal + non-metal',ext:true},
+  {t:'Properties: high m.p./b.p., conducts molten or aqueous, soluble'},{t:'Explain those properties using structure and bonding',ext:true},
+  {t:'Describe the giant lattice of alternating ions (NaCl)',ext:true}]
+};
+
+SUBS.c71={code:'C7.1',title:'Acids and bases',unit:'S2.6',sci:'Chemistry',ac:'#0d9488',
+ big:'Acids attack metals and carbonates; a base cancels an acid out, making salt and water.',
+ visuals:[
+  {cap:'Universal indicator: colour tells you how acidic or alkaline, not just which one.',
+   svg:(function(){var s='',i,cols=['#c62828','#e53935','#ef6c00','#f9a825','#fdd835','#cddc39','#43a047','#26a69a','#1e88e5','#1565c0','#3949ab','#4527a0','#6a1b9a','#4a148c'];
+    for(i=0;i<14;i++){s+='<rect x="'+(18+i*21.5)+'" y="26" width="21.5" height="46" fill="'+cols[i]+'"/>';
+      s+='<text class="sv-mut" x="'+(28.7+i*21.5)+'" y="88" text-anchor="middle">'+(i+1)+'</text>';}
+    s+='<rect x="18" y="26" width="301" height="46" rx="4" class="sv-ln"/>';
+    s+='<text class="sv-sm" x="18" y="18">acidic</text><text class="sv-sm" x="158" y="18" text-anchor="middle">neutral</text><text class="sv-sm" x="319" y="18" text-anchor="end">alkaline</text>';
+    s+='<text class="sv-mut" x="18" y="104">pH</text>';
+    s+='<rect x="146.5" y="24" width="23" height="50" rx="3" style="fill:none;stroke:var(--ink);stroke-width:2.6"/>';
+    s+='<text class="sv-acl" x="165" y="116" text-anchor="middle">pH 7 = green = neutral</text>';
+    return sv(330,128,s);})()}
+ ],
+ tables:[
+  {cap:'Indicator colours — learn the rows, they are exam marks.',
+   head:['Indicator','In acid','In alkali'],
+   rows:[['Litmus','red','blue'],['Methyl orange','red','yellow'],['Universal indicator','red / orange (pH 1–6)','blue / purple (pH 8–14)']]},
+  {cap:'The three acid reactions. Learn the general word equations.',
+   head:['Acid reacts with','Products'],
+   rows:[['metal','salt + hydrogen'],['base (or alkali)','salt + water'],['carbonate','salt + water + carbon dioxide']]}],
+ terms:[
+  {t:'Acid',d:'Reacts with metals, bases and carbonates; turns litmus <b>red</b>.'},
+  {t:'Base',d:'An <b>oxide or hydroxide of a metal</b>. Reacts with acids to give salt + water.'},
+  {t:'Alkali',d:'A base that is <b>soluble in water</b>. Turns litmus blue.'},
+  {t:'Neutralisation',d:'Acid + alkali → <b>salt + water</b>. The pH moves towards 7.'},
+  {t:'Salt',d:'Compound made when the hydrogen of an acid is replaced by a metal.'},
+  {t:'Test for carbon dioxide',d:'Fizzing with a carbonate; the gas turns limewater milky.'}
+ ],
+ work:{stem:'Dilute sulfuric acid is added to sodium hydroxide solution, then to magnesium, then to copper carbonate. Name the products each time.',
+  steps:[
+   {h:'Acid + alkali',t:'Neutralisation: sodium sulfate + water. Nothing is seen, so use an indicator.'},
+   {h:'Acid + metal',t:'Magnesium sulfate + hydrogen. Bubbles of gas are seen.'},
+   {h:'Acid + carbonate',t:'Copper sulfate + water + carbon dioxide. Fizzing, and limewater turns milky.'},
+   {h:'Spot the pattern',t:'The salt is always named from the <b>metal</b> + the <b>acid</b> (sulfuric → sulfate).',fin:true}
+  ]},
+ watch:[
+  {x:'All bases are alkalis.',v:'Only the <b>soluble</b> bases are alkalis.'},
+  {x:'Methyl orange turns blue in alkali.',v:'Methyl orange is <b>yellow</b> in alkali; litmus is blue.'},
+  {x:'Acid + carbonate gives hydrogen.',v:'It gives <b>carbon dioxide</b>; only acid + metal gives hydrogen.'}
+ ],
+ qc:[
+  {q:'Which row is correct?',
+   tbl:{head:['','Indicator and solution','Colour'],rows:[['A','litmus in acid','blue'],['B','methyl orange in alkali','yellow'],['C','universal indicator at pH 7','red'],['D','litmus in alkali','red']]},
+   opts:['A','B','C','D'],correct:1,
+   why:['Acid turns litmus <b>red</b>, not blue.',
+    'Correct: methyl orange is red in acid and yellow in alkali.',
+    'pH 7 is <b>green</b> with universal indicator.',
+    'Alkali turns litmus <b>blue</b>; red is the acid colour.']},
+  {q:'Dilute hydrochloric acid is added to calcium carbonate. Which products form?',
+   opts:['salt + hydrogen only','salt + water + carbon dioxide','salt + oxygen','salt + water only'],correct:1,
+   why:['Hydrogen comes from acid + <b>metal</b>, not acid + carbonate.',
+    'Correct: carbonates always give a salt, water and carbon dioxide.',
+    'Oxygen is not a product of any of the three acid reactions.',
+    'Salt + water only is acid + <b>base</b>; the carbonate also gives CO<sub>2</sub>.']},
+  {q:'A cleaning solution has pH 12. Which universal indicator colour is seen?',
+   opts:['red','green','yellow','purple'],correct:3,
+   why:['Red is strongly <b>acidic</b> (about pH 1–3).',
+    'Green is pH 7, neutral.',
+    'Yellow is weakly acidic (about pH 5–6).',
+    'Correct: pH 12 is strongly alkaline, so blue-purple.']}
+ ],
+ must:[{t:'Acid reactions with metals, bases and carbonates'},{t:'Acid and alkali colours in litmus and methyl orange'},
+  {t:'Bases are metal oxides or hydroxides; alkalis are soluble bases'},{t:'Bases react with acids (neutralisation)'},
+  {t:'Compare acidity and alkalinity by colour and pH (universal indicator)'},{t:'Acid + alkali → salt + water'}]
+};
+
+SUBS.c51={code:'C5.1',title:'Exothermic and endothermic',unit:'S2.6',sci:'Chemistry',ac:'#ea580c',
+ big:'Exothermic reactions warm the surroundings; endothermic reactions cool them down.',
+ visuals:[
+  {cap:'Exothermic: products end <b>lower</b> than reactants, so energy is given out and ΔH is negative.',svg:pathway({r:55,p:18,k:85,exo:true})},
+  {cap:'Endothermic: products end <b>higher</b> than reactants, so energy is taken in and ΔH is positive.',svg:pathway({r:25,p:62,k:88,exo:false})}
+ ],
+ tables:[{cap:'Two words, two directions of energy flow.',
+  head:['','Exothermic','Endothermic'],
+  rows:[['Thermal energy','transferred <b>to</b> surroundings','taken <b>in from</b> surroundings'],['Temperature of surroundings','rises','falls'],['ΔH sign','negative','positive'],['Example','combustion, neutralisation','thermal decomposition']]}],
+ terms:[
+  {t:'Exothermic',d:'Transfers thermal energy <b>to</b> the surroundings; they get warmer.'},
+  {t:'Endothermic',d:'Takes thermal energy <b>from</b> the surroundings; they get colder.'},
+  {t:'Enthalpy change, ΔH',d:'Energy transferred in a reaction. Negative = exothermic, positive = endothermic.',ext:true},
+  {t:'Activation energy, E<sub>a</sub>',d:'Minimum energy colliding particles must have to react.',ext:true},
+  {t:'Bond breaking',d:'<b>Endothermic</b> — energy must be put in.',ext:true},
+  {t:'Bond making',d:'<b>Exothermic</b> — energy is released.',ext:true}
+ ],
+ fbox:[{name:'Reading a reaction pathway diagram',eq:'ΔH = energy of products − energy of reactants',
+   syms:[['ΔH','enthalpy change, kJ/mol'],['E<sub>a</sub>','activation energy = peak − reactants, kJ/mol']],
+   note:'Measure E<sub>a</sub> from the <b>reactants</b> up to the peak, never from the products.',ext:true}],
+ work:{stem:'On a pathway diagram the reactants are at 200 kJ/mol, the peak is at 450 kJ/mol and the products are at 320 kJ/mol. Find ΔH and E<sub>a</sub>, and say which type of reaction it is.',
+  steps:[
+   {h:'Compare the two levels',t:'Products (320) are <b>higher</b> than reactants (200), so energy was taken in.'},
+   {h:'Type of reaction',t:'Energy taken in from the surroundings = <b>endothermic</b>, so ΔH is positive.'},
+   {h:'Work out ΔH',t:'ΔH = 320 − 200 = <b>+120 kJ/mol</b>.'},
+   {h:'Work out E<sub>a</sub>',t:'E<sub>a</sub> = peak − reactants = 450 − 200 = <b>250 kJ/mol</b>.',fin:true}
+  ]},
+ watch:[
+  {x:'ΔH is positive for exothermic reactions.',v:'Exothermic gives energy out, so ΔH is <b>negative</b>.'},
+  {x:'Measuring E<sub>a</sub> from the products.',v:'E<sub>a</sub> is measured from the <b>reactants</b> to the peak.'},
+  {x:'Bond breaking releases energy.',v:'Bond breaking <b>takes in</b> energy; bond making releases it.'}
+ ],
+ qc:[
+  {q:'A pathway diagram shows the products lower than the reactants. Which statement is correct?',
+   svg:pathway({r:58,p:20,k:82,exo:true}),
+   opts:['The reaction is exothermic and ΔH is negative','The reaction is endothermic and ΔH is positive','The surroundings get colder','Thermal energy is taken in from the surroundings'],correct:0,
+   why:['Correct: energy is released, so the surroundings warm up and ΔH is negative.',
+    'Products lower than reactants means energy was <b>given out</b>, so exothermic.',
+    'The surroundings get <b>warmer</b> in an exothermic reaction.',
+    'Energy is given <b>out</b>, not taken in.']},
+  {q:'Reactants are at 150 kJ/mol, the peak at 260 kJ/mol and the products at 60 kJ/mol. What is ΔH?',ext:true,
+   opts:['+90 kJ/mol','−90 kJ/mol','+110 kJ/mol','−110 kJ/mol'],correct:1,
+   why:['The size is right but the sign is wrong: products are lower, so ΔH is negative.',
+    'Correct: 60 − 150 = −90 kJ/mol, exothermic.',
+    '110 kJ/mol is the activation energy (260 − 150), not ΔH.',
+    '110 is E<sub>a</sub>; ΔH uses the products level, not the peak.']},
+  {q:'Complete: bond breaking is ___ and bond making is ___.',ext:true,
+   opts:['endothermic, exothermic','exothermic, endothermic','exothermic, exothermic','endothermic, endothermic'],correct:0,
+   why:['Correct: energy in to break bonds, energy out when new bonds form.',
+    'The two are the wrong way round.',
+    'Breaking bonds always needs energy put in.',
+    'Making bonds always releases energy.']}
+ ],
+ must:[{t:'Exothermic transfers thermal energy out; surroundings warm up'},{t:'Endothermic takes thermal energy in; surroundings cool down'},
+  {t:'Interpret reaction pathway diagrams',ext:true},{t:'ΔH negative = exothermic, positive = endothermic',ext:true},
+  {t:'Define activation energy E<sub>a</sub>',ext:true},{t:'Draw and label pathway diagrams with reactants, products, ΔH, E<sub>a</sub>',ext:true},
+  {t:'Bond breaking endothermic, bond making exothermic',ext:true}]
+};
+
+SUBS.p12={code:'P1.2',title:'Motion',unit:'S2.7',sci:'Physics',ac:'#2563eb',
+ big:'Speed is distance per unit time; the shape of the graph tells the whole story.',
+ visuals:[
+  {cap:'Distance–time graph: <b>gradient = speed</b>. Flat means stopped, steeper means faster, a curve means changing speed.',
+   svg:sv(330,212,frame({xmax:10,ymax:50,xticks:[2,4,6,8,10],yticks:[10,20,30,40,50],xl:'time / s',yl:'distance / m'})+
+    '<polyline class="sv-ac" points="'+gx(0,10)+','+gy(0,50)+' '+gx(3,10)+','+gy(15,50)+' '+gx(5,10)+','+gy(15,50)+'"/>'+
+    '<path class="sv-ac" d="M'+gx(5,10)+' '+gy(15,50)+' Q'+gx(8,10)+' '+gy(20,50)+' '+gx(9,10)+' '+gy(45,50)+'"/>'+
+    '<text class="sv-sm" x="'+gx(1.3,10)+'" y="'+(gy(9,50)+2)+'">constant speed</text>'+
+    '<text class="sv-sm" x="'+gx(3.3,10)+'" y="'+(gy(17,50)-4)+'">at rest</text>'+
+    '<text class="sv-sm" x="'+gx(9,10)+'" y="'+(gy(45,50)-8)+'" text-anchor="end">accelerating</text>')},
+  {cap:'Speed–time graph: <b>gradient = acceleration</b>, <b>area under the line = distance</b>.',
+   svg:sv(330,212,frame({xmax:10,ymax:10,xticks:[2,4,6,8,10],yticks:[2,4,6,8,10],xl:'time / s',yl:'speed / (m/s)'})+
+    '<polygon class="sv-fill" points="'+gx(0,10)+','+gy(0,10)+' '+gx(4,10)+','+gy(6,10)+' '+gx(7,10)+','+gy(6,10)+' '+gx(10,10)+','+gy(0,10)+'"/>'+
+    '<polyline class="sv-ac" points="'+gx(0,10)+','+gy(0,10)+' '+gx(4,10)+','+gy(6,10)+' '+gx(7,10)+','+gy(6,10)+' '+gx(10,10)+','+gy(0,10)+'"/>'+
+    '<text class="sv-sm" x="'+gx(0.6,10)+'" y="'+gy(4.2,10)+'">accelerating</text>'+
+    '<text class="sv-sm" x="'+gx(5.5,10)+'" y="'+(gy(6,10)-8)+'" text-anchor="middle">constant speed</text>'+
+    '<text class="sv-sm" x="'+gx(9.6,10)+'" y="'+gy(4.2,10)+'" text-anchor="end">decelerating</text>'+
+    '<text class="sv-acl" x="'+gx(5,10)+'" y="'+gy(2.4,10)+'" text-anchor="middle">area = distance</text>')}
+ ],
+ fbox:[
+  {name:'Speed',eq:'<i class="v">S</i> = <span class="frac"><span class="n"><i class="v">D</i></span><span class="d"><i class="v">T</i></span></span>',
+   syms:[['S','speed, m/s (or km/h)'],['D','distance travelled, m'],['T','time taken, s']],
+   note:'Your exam paper writes this as <i class="v">v</i> = <i class="v">s</i>/<i class="v">t</i>. Same equation, different letters.'},
+  {name:'Acceleration',eq:'<i class="v">A</i> = <span class="frac"><span class="n">Δ<i class="v">S</i></span><span class="d">Δ<i class="v">T</i></span></span>',
+   syms:[['A','acceleration, m/s<sup>2</sup>'],['ΔS','change in speed, m/s'],['ΔT','time for that change, s']],
+   note:'Exam paper: <i class="v">a</i> = Δ<i class="v">v</i>/Δ<i class="v">t</i>. Deceleration is a <b>negative</b> acceleration.',ext:true},
+  {name:'Free fall',eq:'<i class="v">g</i> ≈ 9.8 m/s<sup>2</sup>',
+   syms:[['g','acceleration of free fall near the Earth’s surface']],
+   note:'Treated as constant close to the ground.',ext:true}
+ ],
+ terms:[
+  {t:'Speed',d:'Distance travelled <b>per unit time</b>.'},
+  {t:'Velocity',d:'Speed in a <b>given direction</b>.',ext:true},
+  {t:'Acceleration',d:'Change in velocity per unit time.',ext:true},
+  {t:'Accelerating',d:'Speed is <b>increasing</b>. Decelerating = speed decreasing.'},
+  {t:'Constant acceleration',d:'Speed–time graph is a <b>straight sloping line</b>.',ext:true},
+  {t:'Changing acceleration',d:'Speed–time graph is <b>curved</b>.',ext:true},
+  {t:'Gradient on a distance–time graph',d:'Equals the <b>speed</b>: rise ÷ run.'},
+  {t:'Area under a speed–time graph',d:'Equals the <b>distance travelled</b>.'}
+ ],
+ work:{stem:'A trolley speeds up steadily from 0 to 6.0 m/s in 4.0 s. Find the acceleration and the distance travelled, then describe its distance–time graph.',
+  svg:sv(330,212,frame({xmax:5,ymax:8,xticks:[1,2,3,4,5],yticks:[2,4,6,8],xl:'time / s',yl:'speed / (m/s)'})+
+   '<polygon class="sv-fill" points="'+gx(0,5)+','+gy(0,8)+' '+gx(4,5)+','+gy(6,8)+' '+gx(4,5)+','+gy(0,8)+'"/>'+
+   '<polyline class="sv-ac" points="'+gx(0,5)+','+gy(0,8)+' '+gx(4,5)+','+gy(6,8)+'"/>'+
+   '<text class="sv-acl" x="'+gx(2.4,5)+'" y="'+gy(1.6,8)+'" text-anchor="middle">area</text>'),
+  steps:[
+   {h:'Read the graph',t:'Straight sloping line: the speed rises steadily, so the acceleration is <b>constant</b>.'},
+   {h:'Acceleration = gradient',t:'<i class="v">A</i> = Δ<i class="v">S</i> ÷ Δ<i class="v">T</i> = 6.0 ÷ 4.0 = <b>1.5 m/s<sup>2</sup></b>.'},
+   {h:'Distance = area under the line',t:'The area is a triangle: ½ × base × height = ½ × 4.0 × 6.0.'},
+   {h:'Distance',t:'= <b>12 m</b> travelled in the 4.0 s.',fin:true},
+   {h:'Shape of the distance–time graph',t:'It <b>curves upwards</b> (getting steeper) and reaches 12 m at 4.0 s.',fin:true}
+  ]},
+ watch:[
+  {x:'A flat line on a distance–time graph means constant speed.',v:'Flat on distance–time means <b>at rest</b>.'},
+  {x:'Using the gradient of a speed–time graph to find distance.',v:'Gradient = acceleration; <b>area</b> = distance.'},
+  {x:'Mixing km/h with m/s in one calculation.',v:'Convert first, then substitute into <i class="v">S</i> = <i class="v">D</i>/<i class="v">T</i>.'}
+ ],
+ qc:[
+  {q:'Which part of this distance–time graph shows the object at rest?',
+   svg:sv(330,212,frame({xmax:8,ymax:40,xticks:[2,4,6,8],yticks:[10,20,30,40],xl:'time / s',yl:'distance / m'})+
+    '<polyline class="sv-ac" points="'+gx(0,8)+','+gy(0,40)+' '+gx(2,8)+','+gy(20,40)+' '+gx(5,8)+','+gy(20,40)+' '+gx(8,8)+','+gy(35,40)+'"/>'+
+    '<text class="sv-acl" x="'+gx(1,8)+'" y="'+gy(13,40)+'" text-anchor="middle">P</text>'+
+    '<text class="sv-acl" x="'+gx(3.5,8)+'" y="'+(gy(20,40)-7)+'" text-anchor="middle">Q</text>'+
+    '<text class="sv-acl" x="'+gx(7,8)+'" y="'+gy(24,40)+'" text-anchor="middle">R</text>'),
+   opts:['P only','Q only','R only','P and R'],correct:1,
+   why:['P is a sloping line, so the distance keeps increasing — it is moving.',
+    'Correct: on Q the distance does not change, so the object is not moving.',
+    'R slopes upwards, so the object is moving again.',
+    'Both P and R slope, so both show movement.']},
+  {q:'A car speeds up from 0 to 6.0 m/s in 4.0 s. What is its acceleration?',
+   opts:['1.5 m/s<sup>2</sup>','24 m/s<sup>2</sup>','0.67 m/s<sup>2</sup>','12 m/s<sup>2</sup>'],correct:0,
+   why:['Correct: <i class="v">A</i> = 6.0 ÷ 4.0 = 1.5 m/s<sup>2</sup>.',
+    '24 is 6.0 × 4.0 — you must <b>divide</b> the change in speed by the time.',
+    '0.67 is 4.0 ÷ 6.0, the fraction upside down.',
+    '12 m is the <b>distance</b> (the area under the line), not the acceleration.']},
+  {type:'num',q:'A runner covers 150 m in 12 s. Calculate the average speed.',ans:12.5,tol:0.05,unit:'m/s',
+   sol:['<i class="v">S</i> = <i class="v">D</i> ÷ <i class="v">T</i>','= 150 ÷ 12','= <b>12.5 m/s</b>']}
+ ],
+ must:[{t:'Define speed as distance travelled per unit time'},{t:'Use <i class="v">S</i> = <i class="v">D</i>/<i class="v">T</i>'},
+  {t:'Use the rearranged forms to find distance or time'},{t:'Define velocity as speed in a given direction',ext:true},
+  {t:'Define acceleration and use <i class="v">A</i> = Δ<i class="v">S</i>/Δ<i class="v">T</i>',ext:true},
+  {t:'Sketch, plot and interpret distance–time and speed–time graphs'},
+  {t:'Increasing speed = accelerating; decreasing = decelerating'},
+  {t:'From a graph shape: at rest'},{t:'From a graph shape: constant speed'},{t:'From a graph shape: accelerating'},{t:'From a graph shape: decelerating'},
+  {t:'Constant acceleration = straight sloping speed–time line',ext:true},{t:'Changing acceleration = curved speed–time line',ext:true},
+  {t:'Speed from the gradient of a distance–time graph'},{t:'Acceleration from the gradient of a speed–time graph',ext:true},
+  {t:'Area under a speed–time graph: constant speed'},{t:'Area under a speed–time graph: constant acceleration'},
+  {t:'Deceleration is negative acceleration; use it in calculations',ext:true},{t:'<i class="v">g</i> ≈ 9.8 m/s<sup>2</sup> near the Earth',ext:true}]
+};
+
+SUBS.p151={code:'P1.5.1',title:'Effects of forces',unit:'S2.7',sci:'Physics',ac:'#4f46e5',
+ big:'A resultant force changes an object’s speed, direction or shape; balanced forces change nothing.',
+ visuals:[
+  {cap:'Forces on one straight line: add those pointing the same way, subtract those pointing back.',
+   svg:sv(330,170,
+    '<rect class="sv-box2" x="118" y="52" width="94" height="52" rx="7"/>'+
+    '<text class="sv-lbl" x="165" y="84" text-anchor="middle">60 kg</text>'+
+    arrow(212,78,308,78,'sv-ac','sv-arrac')+
+    '<text class="sv-acl" x="260" y="68" text-anchor="middle">250 N push</text>'+
+    arrow(118,78,42,78,'sv-ax','sv-arr')+
+    '<text class="sv-sm" x="80" y="68" text-anchor="middle">100 N friction</text>'+
+    '<line class="sv-gr" x1="20" y1="112" x2="310" y2="112"/>'+
+    arrow(140,136,230,136,'sv-ac','sv-arrac')+
+    '<text class="sv-acl" x="185" y="158" text-anchor="middle">resultant = 250 − 100 = 150 N</text>')},
+  {cap:'Load–extension graph for a spring: straight while the extension is proportional to the load.',
+   svg:sv(330,212,frame({xmax:5,ymax:10,xticks:[1,2,3,4,5],yticks:[2,4,6,8,10],xl:'extension / cm',yl:'load / N'})+
+    '<polyline class="sv-ac" points="'+gx(0,5)+','+gy(0,10)+' '+gx(3,5)+','+gy(6,10)+'"/>'+
+    '<path class="sv-ac" d="M'+gx(3,5)+' '+gy(6,10)+' Q'+gx(4.2,5)+' '+gy(7.2,10)+' '+gx(4.8,5)+' '+gy(7.6,10)+'"/>'+
+    '<circle class="sv-dot" cx="'+gx(3,5)+'" cy="'+gy(6,10)+'" r="4.5"/>'+
+    '<text class="sv-acl" x="'+gx(2.92,5)+'" y="'+(gy(6,10)-13)+'" text-anchor="end">limit of proportionality</text>'+
+    '<text class="sv-sm" x="'+gx(0.7,5)+'" y="'+gy(3.6,10)+'">straight line</text>')}
+ ],
+ fbox:[
+  {name:'Newton’s second law',eq:'<i class="v">F</i> = <i class="v">m</i> × <i class="v">A</i>',
+   syms:[['F','resultant force, N'],['m','mass, kg'],['A','acceleration, m/s<sup>2</sup>']],
+   note:'<b>Resultant</b> force, and the acceleration is in the <b>same direction</b> as it. Exam paper: <i class="v">F</i> = <i class="v">ma</i>.',ext:true},
+  {name:'Spring constant',eq:'<i class="v">k</i> = <span class="frac"><span class="n"><i class="v">F</i></span><span class="d"><i class="v">x</i></span></span>',
+   syms:[['k','spring constant, N/m'],['F','force (load), N'],['x','extension, m']],
+   note:'Extension = stretched length − original length. Change cm to m first.',ext:true}
+ ],
+ terms:[
+  {t:'Force can change…',d:'The <b>size</b>, <b>shape</b> and <b>motion</b> of an object.'},
+  {t:'Resultant force',d:'The single force that has the same effect as all the forces together.'},
+  {t:'Friction',d:'Force between two surfaces that may <b>impede motion</b> and produce <b>heating</b>.'},
+  {t:'Drag',d:'Friction on an object moving through a <b>liquid</b> or a <b>gas</b> (air resistance).'},
+  {t:'Newton’s first law',d:'No resultant force → stays at rest, or keeps a <b>constant speed in a straight line</b>.'},
+  {t:'Limit of proportionality',d:'Point where the load–extension graph <b>stops being a straight line</b>.',ext:true}
+ ],
+ work:{stem:'A 60 kg sledge is pushed with a force of 250 N. Friction on the sledge is 100 N. Calculate its acceleration.',
+  steps:[
+   {h:'Find the resultant force',t:'The forces are on the same line and point opposite ways: 250 − 100 = <b>150 N</b> forwards.'},
+   {h:'Choose the equation',t:'<i class="v">F</i> = <i class="v">m</i> × <i class="v">A</i>, so <i class="v">A</i> = <i class="v">F</i> ÷ <i class="v">m</i>.'},
+   {h:'Substitute',t:'<i class="v">A</i> = 150 ÷ 60.'},
+   {h:'Answer',t:'<b>2.5 m/s<sup>2</sup></b>, forwards — the same direction as the resultant force.',fin:true}
+  ]},
+ work2:{stem:'A load of 2.0 N stretches a spring by 4.0 cm, inside the straight part of the graph. Find the spring constant.',ext:true,
+  steps:[
+   {h:'Convert the extension',t:'4.0 cm = 4.0 ÷ 100 = <b>0.040 m</b>.'},
+   {h:'Use the definition',t:'<i class="v">k</i> = force per unit extension = <i class="v">F</i> ÷ <i class="v">x</i> = 2.0 ÷ 0.040.'},
+   {h:'Answer',t:'<b><i class="v">k</i> = 50 N/m</b>.',fin:true}
+  ]},
+ watch:[
+  {x:'Giving a weight in kilograms.',v:'Weight is a force, so it is measured in <b>newtons</b>.'},
+  {x:'Putting the total push into <i class="v">F</i> = <i class="v">m</i><i class="v">A</i>.',v:'Use the <b>resultant</b> force (push − friction).'},
+  {x:'A force is needed to keep moving at constant speed.',v:'Constant speed means the forces are <b>balanced</b>.'}
+ ],
+ qc:[
+  {q:'Which row is correctly recorded? (<i class="v">g</i> = 9.8 N/kg)',
+   tbl:{head:['','Mass','Weight'],rows:[['A','5 g','49 N'],['B','1 kg','9.8 N'],['C','10 kg','10 N'],['D','2 kg','2 kg']]},
+   opts:['A','B','C','D'],correct:1,
+   why:['5 g is 0.005 kg, so the weight is 0.005 × 9.8 = 0.049 N, not 49 N.',
+    'Correct: 1 × 9.8 = 9.8 N.',
+    '10 kg weighs 10 × 9.8 = 98 N.',
+    'Weight must be in <b>newtons</b>, never kilograms.']},
+  {q:'A box is pulled right with 300 N while friction pushes left with 120 N. What is the resultant force?',
+   opts:['420 N to the right','180 N to the right','180 N to the left','0 N'],correct:1,
+   why:['You only add forces that point the <b>same</b> way; these are opposite.',
+    'Correct: 300 − 120 = 180 N, towards the larger force.',
+    'The resultant acts towards the <b>larger</b> force, which pulls right.',
+    'The forces are not equal, so they do not cancel.']},
+  {type:'num',q:'A resultant force of 3000 N acts on a 1200 kg car. Calculate its acceleration.',ans:2.5,tol:0.02,unit:'m/s<sup>2</sup>',ext:true,
+   sol:['<i class="v">A</i> = <i class="v">F</i> ÷ <i class="v">m</i>','= 3000 ÷ 1200','= <b>2.5 m/s<sup>2</sup></b>']},
+  {q:'On a load–extension graph, what does the limit of proportionality mark?',ext:true,
+   opts:['Where the spring snaps','Where the line stops being straight','Where the extension is zero','Where the load is largest'],correct:1,
+   why:['Snapping is not what this point means.',
+    'Correct: beyond it, extension is no longer proportional to load.',
+    'Zero extension is the origin of the graph.',
+    'The graph often continues past this point to larger loads.']}
+ ],
+ must:[{t:'Forces change size, shape and motion'},{t:'Resultant of forces along the same straight line'},
+  {t:'Friction impedes motion and produces heating'},{t:'Drag acts in liquids'},{t:'Drag acts in gases (air resistance)'},
+  {t:'No resultant force: at rest or constant speed in a straight line'},
+  {t:'Use <i class="v">F</i> = <i class="v">m</i><i class="v">A</i>; force and acceleration same direction',ext:true},
+  {t:'Sketch, plot and interpret load–extension graphs; describe the experiment',ext:true},
+  {t:'Spring constant = force per unit extension; use <i class="v">k</i> = <i class="v">F</i>/<i class="v">x</i>',ext:true},
+  {t:'Identify the limit of proportionality on the graph',ext:true}]
+};
+
+SUBS.p152={code:'P1.5.2',title:'Turning effect of forces',unit:'S2.7',sci:'Physics',ac:'#0891b2',
+ big:'A force turns things more when it acts further from the pivot.',
+ visuals:[
+  {cap:'Everyday moments: the longer the spanner, the bigger the turning effect for the same force.',
+   svg:sv(330,160,
+    '<rect class="sv-box" x="58" y="92" width="88" height="16" rx="5"/>'+
+    '<circle class="sv-box2" cx="58" cy="100" r="18"/><circle class="sv-dot" cx="58" cy="100" r="4"/>'+
+    arrow(146,70,146,30,'sv-ax','sv-arr')+'<text class="sv-sm" x="146" y="22" text-anchor="middle">20 N</text>'+
+    '<text class="sv-mut" x="102" y="128" text-anchor="middle">0.10 m</text>'+
+    '<text class="sv-sm" x="76" y="146" text-anchor="middle">moment 2.0 N m</text>'+
+    '<rect class="sv-box" x="196" y="92" width="112" height="16" rx="5"/>'+
+    '<circle class="sv-box2" cx="196" cy="100" r="18"/><circle class="sv-dot" cx="196" cy="100" r="4"/>'+
+    arrow(302,70,302,30,'sv-ac','sv-arrac')+'<text class="sv-acl" x="302" y="22" text-anchor="middle">20 N</text>'+
+    '<text class="sv-mut" x="252" y="128" text-anchor="middle">0.20 m</text>'+
+    '<text class="sv-acl" x="252" y="146" text-anchor="middle">moment 4.0 N m</text>')},
+  {cap:'Balanced beam, pivot at 50 cm: 20 N × 30 cm = 600 N cm anticlockwise equals 30 N × 20 cm = 600 N cm clockwise.',
+   svg:beam({pivot:50,forces:[{at:20,lab:'20 N'},{at:70,lab:'30 N'}]})}
+ ],
+ fbox:[
+  {name:'Moment of a force',eq:'moment = <i class="v">F</i> × <i class="v">d</i>',
+   syms:[['F','force, N'],['d','perpendicular distance from the pivot, m (or cm)'],['moment','N m (or N cm)']],
+   note:'<b>Perpendicular</b> distance, measured from the <b>pivot</b>.'},
+  {name:'Principle of moments',eq:'sum of anticlockwise moments = sum of clockwise moments',
+   syms:[['','true whenever a beam balances']],
+   note:'Use it with one force on each side of the pivot.',ext:true}
+ ],
+ terms:[
+  {t:'Moment',d:'Measure of the <b>turning effect</b> of a force about a pivot.'},
+  {t:'Pivot',d:'Fixed point the object turns about.'},
+  {t:'Equilibrium',d:'No resultant force <b>and</b> no resultant moment.'},
+  {t:'Principle of moments',d:'When balanced: anticlockwise moments = clockwise moments.',ext:true},
+  {t:'Everyday examples',d:'Spanner, door handle, see-saw, scissors, bicycle brake lever.'}
+ ],
+ work:{stem:'The beam below is balanced on a pivot at the 50 cm mark. A 4.0 N force acts down at 20 cm and a 6.0 N force acts down at 60 cm. At which mark does the 5.0 N force act?',
+  svg:beam({pivot:50,forces:[{at:20,lab:'4.0 N'},{at:60,lab:'6.0 N'},{at:76,lab:'5.0 N',q:true}]}),
+  steps:[
+   {h:'Distances from the pivot',t:'4.0 N: 50 − 20 = 30 cm (anticlockwise). 6.0 N: 60 − 50 = 10 cm (clockwise).'},
+   {h:'Anticlockwise moment',t:'4.0 × 30 = <b>120 N cm</b>.'},
+   {h:'Clockwise moment so far',t:'6.0 × 10 = <b>60 N cm</b>.'},
+   {h:'What is missing',t:'Balanced, so clockwise must also total 120. The 5.0 N force must give 120 − 60 = <b>60 N cm</b>.'},
+   {h:'Find its distance',t:'<i class="v">d</i> = 60 ÷ 5.0 = <b>12 cm</b> from the pivot, on the clockwise side.'},
+   {h:'Convert to a mark',t:'50 + 12 = the <b>62 cm</b> mark.',fin:true}
+  ]},
+ watch:[
+  {x:'Using the distance from the end of the beam.',v:'Always measure from the <b>pivot</b>.'},
+  {x:'Mixing cm and m in the same balance.',v:'Keep one unit throughout; N cm and N m both work if consistent.'},
+  {x:'Equilibrium means only that forces balance.',v:'It needs no resultant force <b>and</b> no resultant moment.'}
+ ],
+ qc:[
+  {q:'A beam has no resultant force and no resultant moment acting on it. Which statement is correct?',
+   opts:['It is in equilibrium','It will start to turn clockwise','It must be accelerating','It has no weight'],correct:0,
+   why:['Correct: that is exactly the definition of equilibrium.',
+    'Turning needs a resultant <b>moment</b>, and there is none.',
+    'Accelerating needs a resultant <b>force</b>, and there is none.',
+    'It can still have weight; the weight is simply balanced.']},
+  {type:'num',q:'A force of 12 N acts 0.25 m from a pivot, at right angles to the spanner. Calculate the moment in N m.',ans:3,tol:0.02,unit:'N m',
+   sol:['moment = <i class="v">F</i> × <i class="v">d</i>','= 12 × 0.25','= <b>3.0 N m</b>']},
+  {q:'Why is a long spanner easier to use than a short one?',
+   opts:['It applies a larger force','The larger distance from the pivot gives a larger moment','It gives a smaller moment, so less effort','It is heavier, so it pushes harder'],correct:1,
+   why:['Your hand applies the same force; only the distance changes.',
+    'Correct: moment = force × distance, so a longer distance turns the nut more.',
+    'A smaller moment would make it <b>harder</b> to turn.',
+    'Extra weight is not what loosens the nut.']}
+ ],
+ must:[{t:'Moment as a measure of turning effect, with everyday examples'},
+  {t:'Apply the principle of moments, one force each side of the pivot',ext:true},
+  {t:'moment = force × perpendicular distance from the pivot; use it'},
+  {t:'No resultant force and no resultant moment = equilibrium'}]
+};
+
+SUBS.p153={code:'P1.5.3',title:'Centre of gravity',unit:'S2.7',sci:'Physics',ac:'#52525b',
+ big:'The whole weight of an object acts as if it were all at one point.',
+ visuals:[
+  {cap:'For regular, uniform shapes the centre of gravity is at the <b>geometric centre</b>.',
+   svg:sv(330,180,
+    '<rect class="sv-box2" x="22" y="40" width="88" height="66" rx="4"/>'+
+    '<line class="sv-gr" x1="22" y1="73" x2="110" y2="73"/><line class="sv-gr" x1="66" y1="40" x2="66" y2="106"/>'+
+    '<circle class="sv-dot" cx="66" cy="73" r="5"/>'+arrow(66,73,66,126,'sv-ac','sv-arrac')+
+    '<text class="sv-acl" x="66" y="142" text-anchor="middle">weight</text>'+
+    '<text class="sv-sm" x="66" y="162" text-anchor="middle">block</text>'+
+    '<circle class="sv-box2" cx="176" cy="73" r="34"/>'+
+    '<line class="sv-gr" x1="142" y1="73" x2="210" y2="73"/><line class="sv-gr" x1="176" y1="39" x2="176" y2="107"/>'+
+    '<circle class="sv-dot" cx="176" cy="73" r="5"/>'+arrow(176,73,176,126,'sv-ac','sv-arrac')+
+    '<text class="sv-sm" x="176" y="162" text-anchor="middle">sphere</text>'+
+    '<rect class="sv-box2" x="250" y="44" width="56" height="58" style="stroke:none"/>'+
+    '<path class="sv-ln" d="M250 44 v58 a28 10 0 0 0 56 0 v-58"/>'+
+    '<ellipse class="sv-box2" cx="278" cy="44" rx="28" ry="10"/>'+
+    '<line class="sv-gr" x1="250" y1="73" x2="306" y2="73"/><line class="sv-gr" x1="278" y1="44" x2="278" y2="102"/>'+
+    '<circle class="sv-dot" cx="278" cy="73" r="5"/>'+arrow(278,73,278,126,'sv-ac','sv-arrac')+
+    '<text class="sv-sm" x="278" y="162" text-anchor="middle">cylinder</text>')}
+ ],
+ terms:[
+  {t:'Centre of gravity',d:'The single point where the whole <b>weight</b> of an object acts.'},
+  {t:'Rectangular block',d:'Centre of gravity at the centre: halfway along each side.'},
+  {t:'Sphere',d:'Centre of gravity at the centre of the sphere.'},
+  {t:'Cylinder',d:'Centre of gravity on the axis, <b>halfway up</b>.'}
+ ],
+ work:{stem:'A uniform rectangular block is 40 cm long, 20 cm high and 10 cm deep. Where is its centre of gravity?',
+  steps:[
+   {h:'Check the shape',t:'It is a <b>regular</b> shape and uniform, so the centre of gravity is at the geometric centre.'},
+   {h:'Halve each measurement',t:'40 ÷ 2 = 20 cm along, 20 ÷ 2 = 10 cm up, 10 ÷ 2 = 5 cm in.'},
+   {h:'Answer',t:'At the <b>centre of the block</b>: 20 cm along, 10 cm up, 5 cm from the front face.',fin:true},
+   {h:'What it means',t:'Draw the weight as one arrow straight down from that point.',fin:true}
+  ]},
+ watch:[
+  {x:'The centre of gravity is wherever you hold the object.',v:'It is a <b>fixed point</b> set by the shape, not by your hand.'},
+  {x:'The centre of gravity of a sphere is on its surface.',v:'It is at the <b>centre</b> of the sphere.'}
+ ],
+ qc:[
+  {q:'Where is the centre of gravity of a uniform cylinder?',
+   opts:['At the top face','On the axis, halfway up','At the base','Outside the cylinder'],correct:1,
+   why:['The top face is not the middle of the shape.',
+    'Correct: on the central axis, midway between the two ends.',
+    'The base is not the middle either, even though the cylinder stands on it.',
+    'For a solid regular shape it lies inside the material.']},
+  {q:'A uniform metal sheet measures 40 cm by 20 cm. Which point is its centre of gravity?',
+   opts:['A corner of the sheet','20 cm along and 10 cm up','40 cm along and 20 cm up','It depends where the sheet is held'],correct:1,
+   why:['A corner is not the middle of the sheet.',
+    'Correct: halfway along both sides, so the geometric centre.',
+    'Those are the full lengths, not the halves.',
+    'The centre of gravity does not move when you pick the sheet up.']}
+ ],
+ must:[{t:'Meaning of centre of gravity, and its position for rectangular blocks, spheres and cylinders'}]
+};
+</script>
+<script>
+function wrapText(t,cx,y,maxw,cls,lh){
+  cls=cls||'sv-sm';lh=lh||15;
+  var cpl=Math.max(7,Math.floor(maxw/6.4)),words=String(t).split(' '),lines=[],cur='';
+  words.forEach(function(w){if((cur+' '+w).trim().length<=cpl){cur=(cur+' '+w).trim();}else{if(cur){lines.push(cur);}cur=w;}});
+  if(cur){lines.push(cur);}
+  var s='',y0=y-((lines.length-1)*lh)/2;
+  lines.forEach(function(l,i){s+='<text class="'+cls+'" x="'+r2(cx)+'" y="'+r2(y0+i*lh)+'" text-anchor="middle">'+l+'</text>';});
+  return s;
+}
+function flow(items,bh){
+  bh=bh||58;
+  var n=items.length,gap=15,bw=(326-(n-1)*gap)/n,s='';
+  items.forEach(function(t,i){
+    var x=2+i*(bw+gap);
+    s+='<rect class="sv-box" x="'+r2(x)+'" y="12" width="'+r2(bw)+'" height="'+bh+'" rx="9"/>';
+    s+=wrapText(t,x+bw/2,12+bh/2,bw-8);
+    if(i<n-1){s+=arrow(x+bw+2,12+bh/2,x+bw+gap-2,12+bh/2,'sv-ac','sv-arrac');}
+  });
+  return sv(330,bh+28,s);
+}
+function lifts(items){
+  var s='',pw=78,gap=6;
+  items.forEach(function(it,i){
+    var x=i*(pw+gap)+2,base=120,sh=base-it.h*30;
+    s+='<rect class="sv-box2" x="'+x+'" y="'+base+'" width="'+pw+'" height="7" rx="2"/>';
+    s+='<line x1="'+(x+9)+'" y1="'+sh+'" x2="'+(x+pw-9)+'" y2="'+sh+'" style="stroke:var(--ink2);stroke-width:3.5"/>';
+    s+='<circle cx="'+(x+pw/2)+'" cy="'+(sh-10)+'" r="9" style="fill:var(--ac)"/>';
+    s+=arrow(x+pw/2,base-3,x+pw/2,sh+5,'sv-acd','sv-arrac');
+    s+='<text class="sv-acl" x="'+(x+pw/2)+'" y="'+(base+25)+'" text-anchor="middle">'+it.k+'</text>';
+    s+='<text class="sv-sm" x="'+(x+pw/2)+'" y="'+(base+42)+'" text-anchor="middle">'+it.w+'</text>';
+    s+='<text class="sv-mut" x="'+(x+pw/2)+'" y="'+(base+57)+'" text-anchor="middle">'+it.hl+'</text>';
+  });
+  s+='<text class="sv-mut" x="165" y="12" text-anchor="middle">each ball is lifted in the same time</text>';
+  return sv(330,188,s);
+}
+
+SUBS.b101={code:'B10.1',title:'Diseases and immunity',unit:'S2.8',sci:'Biology',ac:'#16a34a',
+ big:'Pathogens pass from host to host; barriers, hygiene and vaccines block the route.',
+ visuals:[
+  {cap:'Two transmission routes. Both end with the pathogen inside a new host.',
+   svg:sv(330,190,
+    '<rect class="sv-box2" x="4" y="22" width="86" height="54" rx="9"/>'+wrapText('infected host',47,49,80)+
+    '<rect class="sv-box2" x="240" y="22" width="86" height="54" rx="9"/>'+wrapText('new host',283,49,80)+
+    arrow(94,40,234,40,'sv-ac','sv-arrac')+
+    '<text class="sv-acl" x="164" y="30" text-anchor="middle">DIRECT</text>'+
+    wrapText('contact, blood, body fluids',164,62,140,'sv-mut',14)+
+    '<rect class="sv-box" x="110" y="104" width="110" height="50" rx="9"/>'+wrapText('surfaces, food, animals, air',165,129,104,'sv-sm',14)+
+    arrow(47,80,136,102,'sv-ax','sv-arr')+arrow(194,102,283,80,'sv-ax','sv-arr')+
+    '<text class="sv-sm" x="165" y="176" text-anchor="middle">INDIRECT</text>')},
+  {cap:'An antibody only binds an antigen whose shape fits it — complementary shapes, like a key in one lock.',ext:true,
+   svg:sv(330,184,
+    '<rect class="sv-box2" x="14" y="86" width="144" height="58" rx="10"/>'+
+    '<text class="sv-sm" x="86" y="121" text-anchor="middle">pathogen</text>'+
+    '<polygon points="74,86 98,86 86,62" style="fill:var(--ac);stroke:none"/>'+
+    '<text class="sv-mut" x="86" y="52" text-anchor="middle">antigen</text>'+
+    '<path d="M196 58 h100 v56 h-38 l-12 -24 -12 24 h-38 z" style="fill:var(--ac);opacity:.16;stroke:none"/>'+
+    '<path d="M196 58 h100 v56 h-38 l-12 -24 -12 24 h-38 z" style="fill:none;stroke:var(--ac);stroke-width:2.6;stroke-linejoin:round"/>'+
+    '<text class="sv-acl" x="246" y="48" text-anchor="middle">antibody</text>'+
+    arrow(226,124,118,96,'sv-acd','sv-arrac')+
+    '<text class="sv-sm" x="165" y="172" text-anchor="middle">only the matching shape fits</text>')},
+  {cap:'Vaccination, in the three steps the mark scheme wants.',ext:true,
+   svg:flow(['weakened pathogen or antigens put into body','antigens make lymphocytes produce antibodies','memory cells give long-term immunity'],72)}
+ ],
+ tables:[
+  {cap:'Body defences — know what each one does.',
+   head:['Defence','How it protects'],
+   rows:[['Skin','Barrier that stops pathogens entering'],['Hairs in the nose','Trap pathogens in the air breathed in'],['Mucus','Traps pathogens in the airways'],['Stomach acid','Kills pathogens in food and drink'],['White blood cells','Destroy pathogens inside the body']]},
+  {cap:'Controlling the spread of disease.',
+   head:['Measure','Why it works'],
+   rows:[['Clean water supply','Water is not contaminated with pathogens'],['Hygienic food preparation','Pathogens are not passed on in food'],['Good personal hygiene','Fewer pathogens on hands and skin'],['Waste disposal','Removes material where pathogens breed'],['Sewage treatment','Keeps sewage pathogens out of water supplies']]}],
+ terms:[
+  {t:'Pathogen',d:'A <b>disease-causing organism</b>.'},
+  {t:'Transmissible disease',d:'Disease where the pathogen can pass from one <b>host</b> to another.'},
+  {t:'Virus structure',d:'A <b>protein coat</b> plus <b>genetic material</b>.',ext:true},
+  {t:'Antigen',d:'Marker on a pathogen; each pathogen has its own <b>specific shape</b>.',ext:true},
+  {t:'Antibody',d:'Protein that binds to an antigen, destroying the pathogen or marking it for phagocytes.',ext:true},
+  {t:'Active immunity',d:'Defence against a pathogen by <b>antibody production in the body</b>.',ext:true},
+  {t:'How active immunity is gained',d:'After an <b>infection</b>, or by <b>vaccination</b>.',ext:true},
+  {t:'Memory cells',d:'Cells made after vaccination that give <b>long-term immunity</b>.',ext:true}
+ ],
+ work:{stem:'Explain how vaccination protects a person from a disease, and how it helps control the spread of that disease. [4 marks]',
+  ext:true,
+  steps:[
+   {h:'Mark 1 — what is injected',t:'Weakened pathogens, or their antigens, are put into the body.'},
+   {h:'Mark 2 — the response',t:'The antigens stimulate an immune response: lymphocytes produce <b>antibodies</b>.'},
+   {h:'Mark 3 — the lasting part',t:'Memory cells are produced, giving <b>long-term immunity</b>.'},
+   {h:'Mark 4 — spreading',t:'Vaccinated people do not pass the pathogen on, so fewer hosts are available and the disease spreads less.',fin:true}
+  ]},
+ watch:[
+  {x:'A vaccine contains ready-made antibodies.',v:'It contains <b>weakened pathogens or antigens</b>; your body makes the antibodies.'},
+  {x:'Antigen and antibody mean the same thing.',v:'Antigen = marker <b>on the pathogen</b>; antibody = protein <b>your body makes</b>.'},
+  {x:'Saying white blood cells "eat germs" only.',v:'Say they produce <b>antibodies</b> and phagocytes <b>destroy</b> pathogens.'}
+ ],
+ qc:[
+  {q:'Which is an example of <b>indirect</b> transmission?',
+   opts:['Shaking hands with an infected person','Touching a contaminated door handle','Contact with infected blood','A kiss on the cheek'],correct:1,
+   why:['Shaking hands is <b>direct</b> contact between two people.',
+    'Correct: the pathogen travels through a contaminated surface, not person to person.',
+    'Blood and other body fluids count as <b>direct</b> contact.',
+    'That is direct contact too.']},
+  {q:'Which body defence kills pathogens that arrive in food?',
+   opts:['Skin','Stomach acid','Hairs in the nose','Mucus'],correct:1,
+   why:['Skin is a barrier on the outside of the body.',
+    'Correct: acid in the stomach kills pathogens that are swallowed.',
+    'Nose hairs trap pathogens in <b>air</b>, not food.',
+    'Mucus traps pathogens in the airways.']},
+  {q:'What does a vaccine contain?',ext:true,
+   opts:['Ready-made antibodies','Weakened pathogens or their antigens','Antibiotics','Memory cells from a donor'],correct:1,
+   why:['Antibodies are made by your own lymphocytes after the vaccine.',
+    'Correct: the antigens trigger your own immune response.',
+    'Antibiotics treat bacterial infections; they are not vaccines.',
+    'Your own lymphocytes produce the memory cells.']}
+ ],
+ must:[{t:'Pathogen = disease-causing organism'},{t:'Transmissible disease: pathogen passes host to host'},
+  {t:'Virus features: protein coat and genetic material',ext:true},
+  {t:'Transmission: direct (contact, blood, body fluids) and indirect (surfaces, food, animals, air)'},
+  {t:'Body defences: skin, nose hairs, mucus, stomach acid, white blood cells'},
+  {t:'Controlling spread: clean water, food hygiene, personal hygiene, waste, sewage'},
+  {t:'Active immunity = antibody production in the body',ext:true},{t:'Each pathogen has antigens with specific shapes',ext:true},
+  {t:'Antibodies bind antigens: destruction or marking for phagocytes',ext:true},
+  {t:'Specific antibodies have complementary shapes',ext:true},
+  {t:'Active immunity from infection or vaccination',ext:true},
+  {t:'The three steps of vaccination',ext:true},{t:'Vaccinations exist for some pathogens'},
+  {t:'Explain the role of vaccination in controlling spread',ext:true}]
+};
+
+SUBS.b141={code:'B14.1',title:'Drugs',unit:'S2.8',sci:'Biology',ac:'#65a30d',
+ big:'Antibiotics kill bacteria only; using them when they are not needed breeds resistance.',
+ visuals:[
+  {cap:'How a resistant population builds up. Resistance is <b>selected</b>, not chosen.',ext:true,
+   svg:sv(330,190,(function(){var s='',i;
+    var pop=[[0,[0,0,0,0,0,1]],[1,[0,0,0,0,0,1]],[2,[1,1,1,1,1,1]]];
+    var titles=['bacteria population','antibiotic taken','resistant ones multiply'];
+    pop.forEach(function(g,gi){
+      var x0=6+gi*110;
+      s+='<rect class="sv-box" x="'+x0+'" y="20" width="98" height="96" rx="9"/>';
+      g[1].forEach(function(res,i){
+        var cx=x0+22+(i%3)*27,cy=42+Math.floor(i/3)*38;
+        if(gi===1&&!res){s+='<circle cx="'+cx+'" cy="'+cy+'" r="9" style="fill:none;stroke:var(--line);stroke-width:1.5;stroke-dasharray:3 3"/>';
+          s+='<path d="M'+(cx-5)+' '+(cy-5)+'l10 10M'+(cx+5)+' '+(cy-5)+'l-10 10" style="stroke:var(--muted);stroke-width:1.6;fill:none"/>';}
+        else{s+='<circle cx="'+cx+'" cy="'+cy+'" r="9" style="fill:'+(res?'var(--ac)':'var(--surface3)')+';stroke:var(--line)"/>';}
+      });
+      s+=wrapText(titles[gi],x0+49,138,96,'sv-sm',14);
+      if(gi<2){s+=arrow(x0+100,68,x0+108,68,'sv-ac','sv-arrac');}
+    });
+    s+='<circle cx="18" cy="176" r="8" style="fill:var(--ac)"/><text class="sv-mut" x="32" y="181">resistant</text>';
+    s+='<circle cx="140" cy="176" r="8" style="fill:var(--surface3);stroke:var(--line)"/><text class="sv-mut" x="154" y="181">not resistant</text>';
+    return s;})())}
+ ],
+ tables:[{cap:'What antibiotics can and cannot do.',
+  head:['Infection caused by','Antibiotics?'],
+  rows:[['Bacteria','<b>Yes</b> — they kill the bacteria'],['Viruses','<b>No</b> — viruses are not affected'],['Resistant bacteria (e.g. MRSA)','Much less effective']]}],
+ terms:[
+  {t:'Drug',d:'Any substance taken into the body that <b>modifies or affects chemical reactions</b> in the body.'},
+  {t:'Antibiotic',d:'Drug used to treat <b>bacterial</b> infections by killing bacteria.'},
+  {t:'Antibiotic resistance',d:'Some bacteria are not killed, so the antibiotic becomes less effective.'},
+  {t:'MRSA',d:'A resistant bacterium that is hard to treat with normal antibiotics.',ext:true}
+ ],
+ work:{stem:'Explain why doctors prescribe antibiotics only when they are essential. [3 marks]',ext:true,
+  steps:[
+   {h:'Mark 1 — variation',t:'Some bacteria in a population are already <b>resistant</b> to the antibiotic.'},
+   {h:'Mark 2 — selection',t:'The antibiotic kills the non-resistant bacteria, so the resistant ones survive and multiply.'},
+   {h:'Mark 3 — the conclusion',t:'Using antibiotics less often gives fewer chances for resistant strains such as MRSA to develop and spread.',fin:true}
+  ]},
+ watch:[
+  {x:'Antibiotics will cure flu or a cold.',v:'Those are <b>viruses</b> — antibiotics have no effect.'},
+  {x:'Bacteria become resistant because they want to survive.',v:'Resistant bacteria <b>already exist</b> and simply survive the treatment.'},
+  {x:'My body becomes resistant to antibiotics.',v:'The <b>bacteria</b> become resistant, not your body.'}
+ ],
+ qc:[
+  {q:'A patient has flu, which is caused by a virus. Why will antibiotics not help?',
+   opts:['The dose would be too small','Antibiotics kill bacteria, not viruses','Viruses are resistant to every drug','Flu is not caused by a pathogen'],correct:1,
+   why:['A larger dose would still have no effect on a virus.',
+    'Correct: antibiotics act on bacteria only.',
+    'Resistance is about bacteria surviving a drug; viruses are simply unaffected by antibiotics.',
+    'Flu is caused by a pathogen — a virus.']},
+  {q:'Why should antibiotics be used only when essential?',ext:true,
+   opts:['It saves the hospital money, nothing more','It limits the development of resistant bacteria such as MRSA','Antibiotics damage viruses if overused','Resistant bacteria become weaker over time'],correct:1,
+   why:['Cost is not the scientific reason the mark scheme wants.',
+    'Correct: less use means fewer chances for resistant strains to be selected.',
+    'Antibiotics have no effect on viruses at all.',
+    'Resistant bacteria stay resistant and can spread.']},
+  {q:'Which is the best definition of a drug?',
+   opts:['Any substance that cures a disease','Any substance taken into the body that modifies or affects chemical reactions in the body','Only a medicine prescribed by a doctor','A substance that kills bacteria'],correct:1,
+   why:['Many drugs relieve symptoms without curing anything.',
+    'Correct: this is the syllabus definition.',
+    'Drugs include substances that are not prescribed.',
+    'That describes an antibiotic, which is one kind of drug.']}
+ ],
+ must:[{t:'Drug = substance that modifies or affects chemical reactions in the body'},
+  {t:'Antibiotics treat bacterial infections'},{t:'Some bacteria are resistant, reducing effectiveness'},
+  {t:'Antibiotics kill bacteria but do not affect viruses'},
+  {t:'Using antibiotics only when essential limits resistance (MRSA)',ext:true}]
+};
+
+SUBS.b51={code:'B5.1',title:'Enzymes',unit:'S2.9',sci:'Biology',ac:'#0e9488',
+ big:'Enzymes are protein catalysts whose active site fits one substrate exactly.',
+ visuals:[
+  {cap:'The substrate fits the active site, the complex forms, then the products leave.',ext:true,
+   svg:sv(330,204,(function(){
+     var blk=function(x,y){return '<path d="M'+x+' '+(y+36)+' h80 v-36 h-20 l-10 18 -10 -18 h-40 z" style="fill:var(--surface);stroke:var(--ink2);stroke-width:2;stroke-linejoin:round"/>';};
+     var tri=function(x,y){return '<polygon points="'+x+','+y+' '+(x+20)+','+y+' '+(x+10)+','+(y+18)+'" style="fill:var(--ac);stroke:none"/>';};
+     var s=blk(12,96)+tri(52,66)+arrow(62,88,62,94,'sv-acd','sv-arrac');
+     s+=blk(124,96)+tri(164,96);
+     s+=blk(236,96)+'<circle cx="266" cy="72" r="8" style="fill:var(--ac)"/><circle cx="288" cy="72" r="8" style="fill:var(--ac)"/>';
+     s+='<text class="sv-mut" x="12" y="58">substrate</text>';
+     s+='<text class="sv-mut" x="290" y="54" text-anchor="end">products</text>';
+     s+=wrapText('substrate meets active site',52,156,104,'sv-sm',15);
+     s+=wrapText('enzyme–substrate complex',164,156,104,'sv-sm',15);
+     s+=wrapText('products released',276,156,104,'sv-sm',15);
+     s+='<text class="sv-mut" x="165" y="196" text-anchor="middle">the enzyme itself is unchanged</text>';
+     return s;})())},
+  {cap:'Temperature: rate rises to the optimum, then falls to zero as the enzyme is <b>denatured</b>.',
+   svg:sv(330,212,frame({xmax:70,ymax:25,xticks:[10,20,30,40,50,60,70],yticks:[5,10,15,20,25],xl:'temperature / °C',yl:'rate of reaction'})+
+    '<path class="sv-ac" d="M'+gx(5,70)+' '+gy(1,25)+' C'+gx(25,70)+' '+gy(6,25)+' '+gx(33,70)+' '+gy(20,25)+' '+gx(40,70)+' '+gy(22,25)+' C'+gx(46,70)+' '+gy(23,25)+' '+gx(50,70)+' '+gy(6,25)+' '+gx(58,70)+' '+gy(0.4,25)+'"/>'+
+    '<line class="sv-acd" x1="'+gx(40,70)+'" y1="'+gy(22,25)+'" x2="'+gx(40,70)+'" y2="'+gy(0,25)+'"/>'+
+    '<text class="sv-acl" x="'+gx(40,70)+'" y="'+(gy(22,25)-8)+'" text-anchor="middle">optimum</text>'+
+    '<text class="sv-sm" x="'+gx(62,70)+'" y="'+gy(5,25)+'" text-anchor="end">denatured</text>')},
+  {cap:'pH: each enzyme works best at one pH; too acidic or too alkaline denatures it.',
+   svg:sv(330,212,frame({xmax:14,ymax:25,xticks:[2,4,6,8,10,12,14],yticks:[5,10,15,20,25],xl:'pH',yl:'rate of reaction'})+
+    '<path class="sv-ac" d="M'+gx(2,14)+' '+gy(0.5,25)+' C'+gx(5,14)+' '+gy(3,25)+' '+gx(6,14)+' '+gy(22,25)+' '+gx(7,14)+' '+gy(22,25)+' C'+gx(8,14)+' '+gy(22,25)+' '+gx(9,14)+' '+gy(3,25)+' '+gx(12,14)+' '+gy(0.5,25)+'"/>'+
+    '<text class="sv-acl" x="'+gx(7,14)+'" y="'+(gy(22,25)-8)+'" text-anchor="middle">optimum pH</text>')}
+ ],
+ terms:[
+  {t:'Enzyme',d:'<b>Protein</b> that works as a <b>biological catalyst</b> in metabolic reactions.'},
+  {t:'Catalyst',d:'Speeds up a reaction without being used up.'},
+  {t:'Active site',d:'Part of the enzyme the substrate fits into.',ext:true},
+  {t:'Substrate',d:'The molecule the enzyme acts on.',ext:true},
+  {t:'Enzyme–substrate complex',d:'Formed when substrate joins the active site; products are then released.',ext:true},
+  {t:'Specificity',d:'Active site has a shape <b>complementary</b> to one substrate only.',ext:true},
+  {t:'Denatured',d:'Active site has <b>changed shape</b>, so the substrate no longer fits.'},
+  {t:'Optimum',d:'Temperature or pH at which the rate is <b>highest</b>.'}
+ ],
+ work:{stem:'Explain why the rate of an enzyme reaction increases up to 40 °C and then falls to zero at 60 °C. [4 marks]',ext:true,
+  steps:[
+   {h:'Below the optimum',t:'Heating gives molecules more <b>kinetic energy</b>.'},
+   {h:'Why that speeds it up',t:'More <b>effective collisions</b> between substrate and active site each second.'},
+   {h:'Above the optimum',t:'The enzyme’s shape changes, so the active site no longer <b>fits</b> the substrate.'},
+   {h:'At 60 °C',t:'The enzyme is <b>denatured</b>: no enzyme–substrate complexes form, so the rate is zero.',fin:true}
+  ]},
+ watch:[
+  {x:'The enzyme is killed at high temperature.',v:'Enzymes are not alive — they are <b>denatured</b>.'},
+  {x:'Hotter is always faster.',v:'Only up to the <b>optimum</b>; above it the rate falls.'},
+  {x:'The enzyme is changed into the product.',v:'The enzyme is <b>unchanged</b> and can be used again.'}
+ ],
+ qc:[
+  {q:'An enzyme works fastest at 40 °C. Why does the rate fall to zero at 60 °C?',
+   opts:['The molecules move more slowly','The active site changes shape, so the enzyme is denatured','All the substrate has been used up','The enzyme has been killed'],correct:1,
+   why:['Molecules move <b>faster</b> at higher temperature, not slower.',
+    'Correct: the substrate no longer fits the denatured active site.',
+    'Running out of substrate is not what the temperature change shows.',
+    'Enzymes are not alive; the correct word is <b>denatured</b>.']},
+  {q:'A student measures the rate of an enzyme reaction. Which temperature is the optimum?',
+   tbl:{head:['Temperature / °C','Rate / cm<sup>3</sup> per min'],rows:[['10','4'],['20','9'],['30','18'],['40','25'],['50','6']]},
+   opts:['10 °C','30 °C','40 °C','50 °C'],correct:2,
+   why:['10 °C gives the slowest rate in the table.',
+    '30 °C is fast but 40 °C is faster.',
+    'Correct: 40 °C gives the highest rate, 25 cm<sup>3</sup> per min.',
+    'At 50 °C the rate has dropped — the enzyme is being denatured.']},
+  {q:'Why does one enzyme break down only one type of substrate?',ext:true,
+   opts:['Enzymes are very small molecules','The active site has a shape complementary to that substrate','The substrate chooses its enzyme','Enzymes are made of protein'],correct:1,
+   why:['Size is not what makes an enzyme specific.',
+    'Correct: only the matching substrate fits the active site.',
+    'Molecules do not choose; the fit of the shapes decides.',
+    'True, but it does not explain specificity.']}
+ ],
+ must:[{t:'Enzymes are proteins acting as biological catalysts in all metabolic reactions'},
+  {t:'Investigate and describe the effect of temperature and pH on enzyme activity'},
+  {t:'Explain enzyme action: active site, enzyme–substrate complex, substrate, product',ext:true},
+  {t:'Explain specificity: complementary shape and fit',ext:true},
+  {t:'Explain temperature effects: kinetic energy, shape and fit, effective collisions, denaturation',ext:true},
+  {t:'Explain pH effects: shape and fit, denaturation',ext:true}]
+};
+
+SUBS.b121={code:'B12.1',title:'Respiration',unit:'S2.9',sci:'Biology',ac:'#a16207',
+ big:'Respiration releases energy from glucose inside every living cell, all the time.',
+ visuals:[
+  {cap:'What living organisms use the released energy for.',
+   svg:sv(330,164,(function(){var s='',u=['muscle contraction','protein synthesis','cell division','growth','nerve impulses','constant body temperature'],i;
+    for(i=0;i<6;i++){var x=4+(i%2)*164,y=6+Math.floor(i/2)*52;
+     s+='<rect class="sv-box" x="'+x+'" y="'+y+'" width="158" height="44" rx="8"/>';
+     s+=wrapText(u[i],x+79,y+24,150);}
+    return s;})())},
+  {cap:'Aerobic respiration in words and symbols.',
+   svg:sv(330,120,
+    '<rect class="sv-box" x="4" y="14" width="150" height="40" rx="8"/>'+wrapText('glucose + oxygen',79,36,146)+
+    arrow(156,34,174,34,'sv-ac','sv-arrac')+
+    '<rect class="sv-box" x="176" y="14" width="150" height="40" rx="8"/>'+wrapText('carbon dioxide + water',251,36,146)+
+    '<text class="sv-lbl" x="165" y="86" text-anchor="middle">C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O</text>'+
+    '<text class="sv-mut" x="165" y="108" text-anchor="middle">energy is released, not a product you write in</text>')},
+  {cap:'Removing the oxygen debt after vigorous exercise.',ext:true,
+   svg:flow(['fast heart rate carries lactic acid to the liver','deep fast breathing supplies oxygen','lactic acid respired aerobically in the liver'],76)}
+ ],
+ tables:[{cap:'Aerobic vs anaerobic respiration.',
+  head:['','Aerobic','Anaerobic (in muscles)'],
+  rows:[['Oxygen used','Yes','No'],['Products','carbon dioxide + water','lactic acid'],['Energy released per glucose','more','<b>much less</b>'],['When','normal activity','vigorous exercise']]}],
+ terms:[
+  {t:'Aerobic respiration',d:'Chemical reactions in cells that <b>use oxygen</b> to break down nutrients and release energy.'},
+  {t:'Anaerobic respiration',d:'Breaking down nutrients to release energy <b>without oxygen</b>.',ext:true},
+  {t:'Lactic acid',d:'Product of anaerobic respiration in muscles; builds up in muscles and blood.',ext:true},
+  {t:'Oxygen debt',d:'Oxygen needed afterwards to break down the lactic acid that built up.',ext:true},
+  {t:'Word equation (aerobic)',d:'glucose + oxygen → carbon dioxide + water'},
+  {t:'Word equation (anaerobic, muscles)',d:'glucose → lactic acid',ext:true}
+ ],
+ fbox:[{name:'Balanced symbol equation (aerobic)',eq:'C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6O<sub>2</sub> → 6CO<sub>2</sub> + 6H<sub>2</sub>O',
+  syms:[['C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>','glucose'],['O<sub>2</sub>','oxygen'],['CO<sub>2</sub>','carbon dioxide'],['H<sub>2</sub>O','water']],
+  note:'Energy is <b>released</b> by this reaction; it is not written as a product.',ext:true}],
+ work:{stem:'Check that C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O is balanced.',ext:true,
+  steps:[
+   {h:'Count carbon',t:'Left: 6 in the glucose. Right: 6 × 1 = 6 in CO<sub>2</sub>. <b>Balanced.</b>'},
+   {h:'Count hydrogen',t:'Left: 12 in the glucose. Right: 6 × 2 = 12 in H<sub>2</sub>O. <b>Balanced.</b>'},
+   {h:'Count oxygen on the left',t:'6 in the glucose + 6 × 2 = 12 in O<sub>2</sub>, so 18 in total.'},
+   {h:'Count oxygen on the right',t:'6 × 2 = 12 in CO<sub>2</sub> + 6 × 1 = 6 in H<sub>2</sub>O, so 18 in total.'},
+   {h:'Conclusion',t:'18 = 18, so the equation is <b>balanced</b>.',fin:true}
+  ]},
+ watch:[
+  {x:'Respiration is breathing.',v:'Respiration is a set of <b>chemical reactions in cells</b>.'},
+  {x:'Anaerobic respiration releases more energy.',v:'It releases <b>much less</b> energy per glucose molecule.'},
+  {x:'Lactic acid is broken down in the muscles.',v:'It is carried in the blood to the <b>liver</b>.'}
+ ],
+ qc:[
+  {q:'Complete the word equation: glucose + oxygen →',
+   opts:['carbon dioxide + water','lactic acid + water','oxygen + glucose','carbon dioxide only'],correct:0,
+   why:['Correct: aerobic respiration gives carbon dioxide and water.',
+    'Lactic acid comes from <b>anaerobic</b> respiration in muscles.',
+    'Those are the reactants, not the products.',
+    'Water is produced as well as carbon dioxide.']},
+  {q:'What does anaerobic respiration in muscles produce during vigorous exercise?',ext:true,
+   opts:['Lactic acid','Carbon dioxide and water','Carbon dioxide and lactic acid','Water only'],correct:0,
+   why:['Correct: glucose → lactic acid, with no oxygen used.',
+    'Those are the products of <b>aerobic</b> respiration.',
+    'No carbon dioxide is produced in anaerobic respiration in muscles.',
+    'Water is not the product of this reaction.']},
+  {q:'After exercise, where is the lactic acid broken down?',ext:true,
+   opts:['In the muscles','In the liver','In the lungs','In the blood'],correct:1,
+   why:['It builds up in the muscles but is not broken down there.',
+    'Correct: the blood carries it to the liver, where it is respired aerobically.',
+    'The lungs supply the oxygen; they do not break down lactic acid.',
+    'Blood transports it; the breakdown happens in the liver.']}
+ ],
+ must:[{t:'Uses of energy: muscle contraction, protein synthesis, cell division, growth, nerve impulses, body temperature'},
+  {t:'Aerobic respiration uses oxygen to break down nutrients and release energy'},
+  {t:'Word equation: glucose + oxygen → carbon dioxide + water'},
+  {t:'Balanced symbol equation for aerobic respiration',ext:true},
+  {t:'Anaerobic respiration releases energy without oxygen',ext:true},
+  {t:'Anaerobic releases much less energy per glucose',ext:true},
+  {t:'Word equation: glucose → lactic acid',ext:true},
+  {t:'Lactic acid builds up and causes an oxygen debt',ext:true},
+  {t:'The three steps of removing the oxygen debt',ext:true}]
+};
+
+SUBS.p161={code:'P1.6.1',title:'Energy',unit:'S2.10',sci:'Physics',ac:'#e11d48',
+ big:'Energy is never made or destroyed — it only moves between stores.',
+ visuals:[
+  {cap:'The seven energy <b>stores</b> you must be able to name.',
+   svg:sv(330,166,(function(){var s='',u=['kinetic','gravitational potential','chemical','elastic (strain)','nuclear','electrostatic','internal (thermal)'],i;
+    for(i=0;i<7;i++){var x=4+(i%2)*164,y=4+Math.floor(i/2)*40;
+     if(i===6){x=86;}
+     s+='<rect class="sv-box" x="'+x+'" y="'+y+'" width="158" height="34" rx="8"/>';
+     s+=wrapText(u[i],x+79,y+19,152);}
+    return s;})())},
+  {cap:'A ball thrown up and caught: the <b>total</b> energy stays the same.',
+   svg:flow(['chemical store in muscles','kinetic store of the ball','gravitational potential store at the top'],72)},
+  {cap:'Four ways energy is transferred between stores.',
+   svg:sv(330,120,(function(){var s='',w=['by forces (mechanical work)','by electrical currents (electrical work)','by heating','by waves: EM, sound'],i;
+    for(i=0;i<4;i++){var x=4+(i%2)*164,y=6+Math.floor(i/2)*54;
+     s+='<rect class="sv-box2" x="'+x+'" y="'+y+'" width="158" height="46" rx="8"/>';
+     s+=wrapText(w[i],x+79,y+25,152);}
+    return s;})())}
+ ],
+ fbox:[{name:'Kinetic energy',eq:'<i class="v">E</i><sub>k</sub> = ½ <i class="v">m</i> <i class="v">S</i><sup>2</sup>',
+  syms:[['E<sub>k</sub>','kinetic energy, J'],['m','mass, kg'],['S','speed, m/s']],
+  note:'Square the speed <b>first</b>, then multiply. Exam paper writes <i class="v">E</i><sub>k</sub> = ½<i class="v">mv</i><sup>2</sup>.',ext:true}],
+ terms:[
+  {t:'Principle of conservation of energy',d:'Energy cannot be created or destroyed, only <b>transferred</b> between stores.'},
+  {t:'Energy store',d:'Where energy is held: kinetic, gravitational potential, chemical, elastic, nuclear, electrostatic, internal.'},
+  {t:'Mechanical working',d:'Transfer <b>by a force</b> moving something.'},
+  {t:'Electrical working',d:'Transfer by an <b>electric current</b>.'},
+  {t:'Heating',d:'Transfer because of a temperature difference.'},
+  {t:'Transfer by waves',d:'Electromagnetic, sound and other waves carry energy.'}
+ ],
+ work:{stem:'A car of mass 1200 kg travels at 15 m/s. Calculate its kinetic energy.',ext:true,
+  steps:[
+   {h:'Write the equation',t:'<i class="v">E</i><sub>k</sub> = ½ <i class="v">m</i> <i class="v">S</i><sup>2</sup>.'},
+   {h:'Square the speed first',t:'15<sup>2</sup> = 225.'},
+   {h:'Substitute',t:'<i class="v">E</i><sub>k</sub> = ½ × 1200 × 225 = 600 × 225.'},
+   {h:'Answer',t:'<b>135 000 J</b> (135 kJ).',fin:true}
+  ]},
+ watch:[
+  {x:'Energy is used up.',v:'Energy is <b>transferred</b>; the total stays the same.'},
+  {x:'Forgetting to square the speed in <i class="v">E</i><sub>k</sub>.',v:'Double the speed gives <b>four times</b> the kinetic energy.'},
+  {x:'Using grams for mass.',v:'Convert to <b>kilograms</b> first: 500 g = 0.5 kg.'}
+ ],
+ qc:[
+  {q:'A ball falls from a shelf. Which energy transfer happens?',
+   opts:['Gravitational potential store → kinetic store','Kinetic store → chemical store','Internal store → elastic store','Electrostatic store → nuclear store'],correct:0,
+   why:['Correct: as it loses height it gains speed.',
+    'The ball speeds up, so its kinetic store <b>fills</b>, and no chemical change happens.',
+    'Neither store is involved in a simple fall.',
+    'These stores play no part here.']},
+  {q:'A ball of mass 500 g moves at 4.0 m/s. What is its kinetic energy?',ext:true,
+   opts:['4.0 J','4000 J','1.0 J','8.0 J'],correct:0,
+   why:['Correct: ½ × 0.50 × 4.0<sup>2</sup> = ½ × 0.50 × 16 = 4.0 J.',
+    'You used 500 kg instead of 0.50 kg.',
+    'You divided by 4 somewhere — check ½ × 0.50 × 16.',
+    'You forgot the ½: 0.50 × 16 = 8.0 J.']},
+  {q:'A swinging pendulum slowly stops. What happened to the energy?',
+   opts:['It was destroyed','It was transferred to the internal (thermal) store of the surroundings','It turned into mass','It was stored as nuclear energy'],correct:1,
+   why:['Energy cannot be destroyed.',
+    'Correct: friction and air resistance heat the surroundings.',
+    'That is not part of this syllabus, and energy is still conserved.',
+    'No nuclear change happens in a pendulum.']}
+ ],
+ must:[{t:'Name the stores: kinetic, gravitational potential, chemical, elastic, nuclear, electrostatic, internal'},
+  {t:'Describe transfers between stores: forces, electrical currents, heating, waves'},
+  {t:'Use <i class="v">E</i><sub>k</sub> = ½<i class="v">mS</i><sup>2</sup>',ext:true},
+  {t:'Apply conservation of energy, including simple flow diagrams'}]
+};
+
+SUBS.p162={code:'P1.6.2',title:'Work',unit:'S2.10',sci:'Physics',ac:'#c026d3',
+ big:'Work done is the energy transferred when a force moves something along its direction.',
+ visuals:[
+  {cap:'Lifting the same book to the same shelf transfers the same energy — the <b>time</b> does not change the work.',
+   svg:sv(330,180,
+    '<line x1="10" y1="150" x2="320" y2="150" style="stroke:var(--ink2);stroke-width:2"/>'+
+    '<rect class="sv-box2" x="22" y="40" width="120" height="8" rx="2"/>'+
+    '<rect class="sv-box" x="60" y="22" width="40" height="18" rx="3"/>'+
+    arrow(80,140,80,52,'sv-ac','sv-arrac')+
+    '<text class="sv-acl" x="88" y="100">1.8 m</text>'+
+    '<text class="sv-sm" x="80" y="168" text-anchor="middle">taken in 2 s</text>'+
+    '<rect class="sv-box2" x="190" y="40" width="120" height="8" rx="2"/>'+
+    '<rect class="sv-box" x="228" y="22" width="40" height="18" rx="3"/>'+
+    arrow(248,140,248,52,'sv-ac','sv-arrac')+
+    '<text class="sv-acl" x="256" y="100">1.8 m</text>'+
+    '<text class="sv-sm" x="248" y="168" text-anchor="middle">taken in 8 s</text>'+
+    '<text class="sv-mut" x="165" y="14" text-anchor="middle">same weight, same height = same work done</text>')}
+ ],
+ fbox:[{name:'Mechanical work done',eq:'<i class="v">W</i> = <i class="v">F</i> × <i class="v">D</i> = Δ<i class="v">E</i>',
+  syms:[['W','work done, J'],['F','force, N'],['D','distance moved in the direction of the force, m'],['ΔE','energy transferred, J']],
+  note:'Work done = energy transferred, for mechanical <b>and</b> electrical working. Exam paper: <i class="v">W</i> = <i class="v">Fd</i>.'}],
+ terms:[
+  {t:'Work done',d:'Energy transferred when a force moves an object.'},
+  {t:'Unit of work',d:'The <b>joule</b> (J). 1 J = 1 N × 1 m.'},
+  {t:'Mechanical working',d:'A force does the work: pushing, pulling, lifting.'},
+  {t:'Electrical working',d:'A current does the work; again, work done = energy transferred.'},
+  {t:'No work done',d:'If the object does not move, <b>no work</b> is done on it.'}
+ ],
+ work:{stem:'A student lifts a book of weight 12 N onto a shelf 1.8 m above the floor. Calculate the work done.',
+  steps:[
+   {h:'Which force?',t:'To lift at steady speed you pull up with a force equal to the weight: 12 N.'},
+   {h:'Which distance?',t:'Only the distance moved <b>in the direction of the force</b>: the height, 1.8 m.'},
+   {h:'Substitute',t:'<i class="v">W</i> = <i class="v">F</i> × <i class="v">D</i> = 12 × 1.8.'},
+   {h:'Answer',t:'<b>21.6 J</b> ≈ 22 J, and the same energy is transferred to the gravitational potential store.',fin:true}
+  ]},
+ watch:[
+  {x:'Lifting faster does more work.',v:'Same force and distance = <b>same work</b>; faster only means more <b>power</b>.'},
+  {x:'Using centimetres in <i class="v">W</i> = <i class="v">F</i><i class="v">D</i>.',v:'Convert to <b>metres</b> first: 50 cm = 0.50 m.'},
+  {x:'Counting the distance carried sideways when lifting.',v:'Use only the distance <b>along the force</b>.'}
+ ],
+ qc:[
+  {q:'Two students lift identical books onto the same shelf. One takes 2 s, the other takes 8 s. Which statement is correct?',
+   opts:['The faster student does more work','They do the same work, but the faster student has more power','The slower student does more work','Neither student does any work'],correct:1,
+   why:['Work depends on force and distance only, and both are the same.',
+    'Correct: same work in less time means greater power.',
+    'Taking longer does not increase the work done.',
+    'A force moves the book upwards, so work is definitely done.']},
+  {type:'num',q:'A force of 25 N pushes a box 3.0 m along the floor. Calculate the work done.',ans:75,tol:0.5,unit:'J',
+   sol:['<i class="v">W</i> = <i class="v">F</i> × <i class="v">D</i>','= 25 × 3.0','= <b>75 J</b>']},
+  {q:'A force of 8.0 N moves a trolley 50 cm. What is the work done?',
+   opts:['400 J','4.0 J','0.16 J','16 J'],correct:1,
+   why:['You used 50 instead of 0.50 m — a centimetre trap.',
+    'Correct: 8.0 × 0.50 m = 4.0 J.',
+    'You divided instead of multiplying.',
+    '16 J would need a 2.0 m distance.']}
+ ],
+ must:[{t:'Mechanical or electrical work done = energy transferred'},
+  {t:'Use <i class="v">W</i> = <i class="v">F</i><i class="v">D</i> = Δ<i class="v">E</i>'}]
+};
+
+SUBS.p163={code:'P1.6.3',title:'Energy resources',unit:'S2.10',sci:'Physics',ac:'#0369a1',
+ big:'Most resources end up spinning a turbine; they differ in renewability, reliability and impact.',
+ visuals:[
+  {cap:'The usual route to electricity. Fuels and geothermal heat water in a <b>boiler</b>; wind and water turn the turbine directly.',
+   svg:flow(['fuel or hot rocks heat water in a boiler','steam turns a turbine','generator makes electricity'],74)},
+  {cap:'Efficiency: how much of the input ends up useful. The rest is wasted, usually as thermal energy.',
+   svg:sv(330,150,
+    '<rect class="sv-box2" x="8" y="26" width="312" height="34" rx="6"/>'+
+    '<text class="sv-sm" x="164" y="48" text-anchor="middle">total energy input = 60 J</text>'+
+    arrow(164,62,164,78,'sv-ax','sv-arr')+
+    '<rect x="8" y="82" width="47" height="34" rx="6" style="fill:var(--ac)"/>'+
+    '<rect class="sv-box" x="8" y="82" width="47" height="34" rx="6" style="fill:none"/>'+
+    '<rect class="sv-box2" x="59" y="82" width="261" height="34" rx="6"/>'+
+    '<text class="sv-acl" x="31" y="132" text-anchor="middle">9 J</text>'+
+    '<text class="sv-sm" x="190" y="104" text-anchor="middle">51 J wasted</text>'+
+    '<text class="sv-mut" x="31" y="146" text-anchor="middle">useful</text>'+
+    '<text class="sv-mut" x="190" y="132" text-anchor="middle">efficiency = 9/60 × 100% = 15%</text>')}
+ ],
+ tables:[
+  {cap:'The eight resource types in the syllabus, with water and solar split by method. Renewable = will not run out; reliable = available whenever you need it.',
+   head:['Resource','Renewable?','Reliable?','Scale','Main environmental impact'],
+   rows:[
+    ['Fossil fuels','No','Yes','Very large','Carbon dioxide and pollution'],
+    ['Biofuels','Yes','Yes','Medium','Land used for fuel crops; CO<sub>2</sub> when burned'],
+    ['Water: waves','Yes','No','Small','Changes coastal habitats'],
+    ['Water: tides','Yes','Yes','Large','Floods estuary habitats'],
+    ['Water: hydroelectric dams','Yes','Yes','Very large','Valleys flooded; few suitable sites'],
+    ['Geothermal','Yes','Yes','Medium','Very few suitable places'],
+    ['Nuclear fission','No','Yes','Very large','Radioactive waste'],
+    ['Solar cells','Yes','No','Small to large','Large area of panels needed'],
+    ['Solar thermal (heating water)','Yes','No','Small','Works only in sunshine'],
+    ['Wind turbines','Yes','No','Medium','Noise and visual impact; no wind, no power']]},
+  {cap:'Which parts of the power station are used?',
+   head:['Resource','Boiler','Turbine','Generator'],
+   rows:[['Fossil fuels, biofuels, nuclear, geothermal','Yes','Yes','Yes'],['Wind, waves, tides, hydroelectric','No','Yes','Yes'],['Solar cells','No','No','No — direct to electricity'],['Solar thermal collectors','No','No','No — heats water directly']]}],
+ fbox:[{name:'Efficiency',eq:'efficiency = <span class="frac"><span class="n">useful energy output</span><span class="d">total energy input</span></span> × 100%',
+  syms:[['','also: useful <b>power</b> output ÷ total <b>power</b> input × 100%'],['','both energies in J; both powers in W']],
+  note:'Efficiency can never be more than 100%.',ext:true}],
+ terms:[
+  {t:'Renewable',d:'Will not run out, because it is replaced as fast as it is used.'},
+  {t:'Reliable',d:'Available whenever it is needed, not only when the wind blows or the Sun shines.'},
+  {t:'Nuclear fusion',d:'Joins small nuclei; releases the energy in the <b>Sun</b>.',ext:true},
+  {t:'Nuclear fission',d:'Splits large nuclei; releases energy in a nuclear <b>reactor</b>.',ext:true},
+  {t:'Efficiency',d:'Fraction of the energy input that becomes <b>useful</b> output, as a percentage.',ext:true},
+  {t:'Wasted energy',d:'Usually transferred to the internal (thermal) store of the surroundings.'}
+ ],
+ work:{stem:'A lamp transfers 60 J of electrical energy each second and gives out 9 J of light each second. Calculate its efficiency.',ext:true,
+  steps:[
+   {h:'Pick out the numbers',t:'Useful output = 9 J (light). Total input = 60 J (electrical).'},
+   {h:'Write the equation',t:'efficiency = (useful output ÷ total input) × 100%.'},
+   {h:'Substitute',t:'= (9 ÷ 60) × 100% = 0.15 × 100%.'},
+   {h:'Answer',t:'<b>15%</b>. The other 85% is wasted, mostly by heating.',fin:true}
+  ]},
+ watch:[
+  {x:'An efficiency over 100%.',v:'Impossible — check which number is the <b>input</b>.'},
+  {x:'Biofuels are not renewable because they burn.',v:'They are <b>renewable</b>: the crops regrow.'},
+  {x:'Dividing by the wasted energy.',v:'Divide the useful output by the <b>total input</b>.'}
+ ],
+ qc:[
+  {q:'Which resource in the table is renewable <b>and</b> reliable?',
+   tbl:{head:['','Resource','Renewable','Reliable'],rows:[['A','coal','no','yes'],['B','solar cells','yes','no'],['C','geothermal','yes','yes'],['D','wind','yes','no']]},
+   opts:['A','B','C','D'],correct:2,
+   why:['Coal is reliable but it is a fossil fuel, so not renewable.',
+    'Solar cells are renewable but give nothing at night.',
+    'Correct: hot rocks are always there, and the heat is replaced.',
+    'Wind is renewable but stops when the air is still.']},
+  {q:'A motor is supplied with 2000 J and transfers 500 J usefully. What is its efficiency?',ext:true,
+   opts:['25%','400%','75%','4%'],correct:0,
+   why:['Correct: (500 ÷ 2000) × 100% = 25%.',
+    'You divided the input by the output — efficiency cannot exceed 100%.',
+    '75% is the percentage <b>wasted</b>, not the efficiency.',
+    'You divided 2000 by 500 and then mis-stated the percentage.']},
+  {q:'How is energy released in the Sun?',ext:true,
+   opts:['Nuclear fission','Nuclear fusion','Burning hydrogen','Geothermal heating'],correct:1,
+   why:['Fission happens in nuclear reactors on Earth.',
+    'Correct: fusion releases the energy in the Sun.',
+    'There is no oxygen to burn hydrogen in the Sun.',
+    'Geothermal energy comes from hot rocks inside the Earth.']}
+ ],
+ must:[{t:'Describe how useful energy is obtained from fossil fuels'},{t:'… from biofuels'},
+  {t:'… from water: waves, tides, hydroelectric dams'},{t:'… from geothermal resources'},{t:'… from nuclear fission'},
+  {t:'… from solar cells (light from the Sun)'},{t:'… from solar thermal collectors'},{t:'… from wind turbines'},
+  {t:'Say where a boiler, turbine and generator are used'},
+  {t:'Advantages and disadvantages: renewability, availability, reliability, scale, environmental impact'},
+  {t:'Understand efficiency of energy transfer qualitatively'},
+  {t:'Energy released by nuclear fusion in the Sun',ext:true},{t:'Energy released by nuclear fission in reactors',ext:true},
+  {t:'Define and use the efficiency equations (energy and power)',ext:true}]
+};
+
+SUBS.p164={code:'P1.6.4',title:'Power',unit:'S2.10',sci:'Physics',ac:'#9333ea',
+ big:'Power is how fast energy is transferred: the same job in less time needs more power.',
+ visuals:[
+  {cap:'Same lifting time, so the greatest power is the <b>greatest weight</b> raised the <b>greatest height</b>.',
+   svg:lifts([{k:'A',w:'2 N',hl:'2.0 m',h:2},{k:'B',w:'4 N',hl:'1.0 m',h:1},{k:'C',w:'4 N',hl:'2.0 m',h:2},{k:'D',w:'2 N',hl:'1.0 m',h:1}])}
+ ],
+ fbox:[{name:'Power',eq:'<i class="v">P</i> = <span class="frac"><span class="n"><i class="v">W</i></span><span class="d"><i class="v">T</i></span></span> = <span class="frac"><span class="n">Δ<i class="v">E</i></span><span class="d"><i class="v">T</i></span></span>',
+  syms:[['P','power, W (watts)'],['W','work done, J'],['ΔE','energy transferred, J'],['T','time taken, s']],
+  note:'Careful: <i class="v">W</i> is work in joules, but <b>W</b> is also the unit watt. 1 W = 1 J/s.'}],
+ terms:[
+  {t:'Power',d:'Work done, or energy transferred, <b>per unit time</b>.'},
+  {t:'Watt',d:'1 W = 1 joule per second.'},
+  {t:'Same work, less time',d:'Means <b>more power</b>.'},
+  {t:'Kilowatt',d:'1 kW = 1000 W. Convert before using the equation.'}
+ ],
+ work:{stem:'A crane lifts a load of weight 4000 N through a height of 3.0 m in 10 s. Calculate the power.',
+  steps:[
+   {h:'Work done first',t:'<i class="v">W</i> = <i class="v">F</i> × <i class="v">D</i> = 4000 × 3.0 = <b>12 000 J</b>.'},
+   {h:'Write the power equation',t:'<i class="v">P</i> = <i class="v">W</i> ÷ <i class="v">T</i>.'},
+   {h:'Substitute',t:'<i class="v">P</i> = 12 000 ÷ 10.'},
+   {h:'Answer',t:'<b>1200 W</b> (1.2 kW).',fin:true}
+  ]},
+ watch:[
+  {x:'Mixing up <i class="v">W</i> for work and W for watt.',v:'<i class="v">W</i> = work in <b>joules</b>; W = the <b>unit</b> of power.'},
+  {x:'More power means more work done.',v:'It means the same work done in <b>less time</b>.'},
+  {x:'Leaving the time in minutes.',v:'Convert to <b>seconds</b>: 2.0 min = 120 s.'}
+ ],
+ qc:[
+  {q:'Each ball is lifted onto a shelf in the same time. Which situation requires the greatest power?',
+   svg:lifts([{k:'A',w:'2 N',hl:'2.0 m',h:2},{k:'B',w:'4 N',hl:'1.0 m',h:1},{k:'C',w:'4 N',hl:'2.0 m',h:2},{k:'D',w:'2 N',hl:'1.0 m',h:1}]),
+   opts:['A','B','C','D'],correct:2,
+   why:['A does 2 × 2.0 = 4 J of work — less than C.',
+    'B does 4 × 1.0 = 4 J of work — less than C.',
+    'Correct: 4 × 2.0 = 8 J in the same time, so the greatest power.',
+    'D does only 2 × 1.0 = 2 J, the smallest.']},
+  {type:'num',q:'A motor transfers 900 J of energy in 30 s. Calculate its power.',ans:30,tol:0.3,unit:'W',
+   sol:['<i class="v">P</i> = Δ<i class="v">E</i> ÷ <i class="v">T</i>','= 900 ÷ 30','= <b>30 W</b>']},
+  {q:'A heater transfers 1.2 kJ in 2.0 minutes. What is its power?',
+   opts:['600 W','10 W','0.01 W','2400 W'],correct:1,
+   why:['You used 2.0 s instead of 120 s.',
+    'Correct: 1200 J ÷ 120 s = 10 W.',
+    'You divided the wrong way round.',
+    'You multiplied instead of dividing.']}
+ ],
+ must:[{t:'Define power as work done, or energy transferred, per unit time; use <i class="v">P</i> = <i class="v">W</i>/<i class="v">T</i> and <i class="v">P</i> = Δ<i class="v">E</i>/<i class="v">T</i>'}]
+};
+
+SUBS.p17={code:'P1.7',title:'Pressure',unit:'S2.10',sci:'Physics',ac:'#dc2626',
+ big:'The same force over a smaller area gives a much bigger pressure.',
+ visuals:[
+  {cap:'Same force, very different areas — so very different pressures.',
+   svg:sv(330,186,
+    '<rect class="sv-box2" x="22" y="34" width="110" height="16" rx="4"/>'+
+    '<polygon points="70,50 84,50 77,124" style="fill:var(--ink2);stroke:none"/>'+
+    arrow(77,16,77,32,'sv-ac','sv-arrac')+
+    '<text class="sv-sm" x="77" y="10" text-anchor="middle">10 N</text>'+
+    '<line x1="14" y1="124" x2="140" y2="124" style="stroke:var(--ink2);stroke-width:2"/>'+
+    wrapText('tiny area: huge pressure',77,150,130,'sv-acl',16)+
+    '<rect class="sv-box2" x="196" y="96" width="112" height="26" rx="4"/>'+
+    arrow(252,16,252,92,'sv-ac','sv-arrac')+
+    '<text class="sv-sm" x="252" y="10" text-anchor="middle">10 N</text>'+
+    '<line x1="186" y1="124" x2="318" y2="124" style="stroke:var(--ink2);stroke-width:2"/>'+
+    wrapText('large area: small pressure',252,150,130,'sv-sm',16))},
+  {cap:'Water pushes down on the base of the tank. Pressure × area gives the force on the base.',
+   svg:sv(330,170,
+    '<path class="sv-box" d="M70 24 h190 v110 h-190 z"/>'+
+    '<path d="M72 54 h186 v78 h-186 z" style="fill:var(--ac);opacity:.18;stroke:none"/>'+
+    '<line class="sv-ac" x1="72" y1="54" x2="258" y2="54"/>'+
+    '<text class="sv-sm" x="165" y="96" text-anchor="middle">water</text>'+
+    arrow(100,112,100,132,'sv-acd','sv-arrac')+arrow(165,112,165,132,'sv-acd','sv-arrac')+arrow(230,112,230,132,'sv-acd','sv-arrac')+
+    '<text class="sv-acl" x="165" y="152" text-anchor="middle">p = 15 000 Pa on a base of 2.2 m<tspan baseline-shift="super" font-size="10">2</tspan></text>')}
+ ],
+ fbox:[
+  {name:'Pressure',eq:'<i class="v">p</i> = <span class="frac"><span class="n"><i class="v">F</i></span><span class="d"><i class="v">A</i></span></span>',
+   syms:[['p','pressure, Pa (pascals); 1 Pa = 1 N/m<sup>2</sup>'],['F','force, N'],['A','area, m<sup>2</sup>']],
+   note:'Rearranged: <i class="v">F</i> = <i class="v">p</i> × <i class="v">A</i>. Lowercase <i class="v">p</i> is pressure; capital <i class="v">P</i> is power.'},
+  {name:'Density (from the practice paper, not in the S2.6–10 list)',eq:'ρ = <span class="frac"><span class="n"><i class="v">m</i></span><span class="d"><i class="v">V</i></span></span>',
+   syms:[['ρ','density, g/cm<sup>3</sup> or kg/m<sup>3</sup>'],['m','mass, g or kg'],['V','volume, cm<sup>3</sup> or m<sup>3</sup>']],
+   note:'Divide mass by volume for every row, then compare the answers.'}
+ ],
+ terms:[
+  {t:'Pressure',d:'Force per unit <b>area</b>.'},
+  {t:'Pascal',d:'1 Pa = 1 N/m<sup>2</sup>.'},
+  {t:'Small area',d:'Gives a <b>large</b> pressure for the same force: drawing pins, knives, studs.'},
+  {t:'Large area',d:'Gives a <b>small</b> pressure: skis, snowshoes, wide tyres.'},
+  {t:'Area conversion',d:'1 m<sup>2</sup> = 10 000 cm<sup>2</sup>, so divide cm<sup>2</sup> by 10 000.'}
+ ],
+ work:{stem:'A box of weight 300 N stands on a base measuring 50 cm by 40 cm. Calculate the pressure on the floor.',
+  steps:[
+   {h:'Convert to metres',t:'50 cm = 0.50 m and 40 cm = 0.40 m.'},
+   {h:'Find the area',t:'<i class="v">A</i> = 0.50 × 0.40 = <b>0.20 m<sup>2</sup></b>.'},
+   {h:'Write the equation',t:'<i class="v">p</i> = <i class="v">F</i> ÷ <i class="v">A</i> = 300 ÷ 0.20.'},
+   {h:'Answer',t:'<b>1500 Pa</b>.',fin:true}
+  ]},
+ watch:[
+  {x:'Using cm<sup>2</sup> straight in <i class="v">p</i> = <i class="v">F</i>/<i class="v">A</i>.',v:'Convert to m<sup>2</sup> first: ÷ 10 000.'},
+  {x:'Writing <i class="v">P</i> for pressure.',v:'Lowercase <i class="v">p</i> = pressure; capital <i class="v">P</i> = power.'},
+  {x:'Thinking a bigger area gives a bigger pressure.',v:'Bigger area <b>spreads</b> the force, so the pressure is <b>smaller</b>.'}
+ ],
+ qc:[
+  {q:'The pressure at the base of a water tank is 15 000 Pa. The base has an area of 2.2 m<sup>2</sup>. What is the force on the base?',
+   opts:['6818 N','33 000 N','15 000 N','3300 N'],correct:1,
+   why:['You divided instead of multiplying.',
+    'Correct: <i class="v">F</i> = <i class="v">p</i> × <i class="v">A</i> = 15 000 × 2.2 = 33 000 N.',
+    'That is the pressure value, not the force.',
+    'Check the decimal point: 15 000 × 2.2 = 33 000.']},
+  {q:'Why does a drawing pin push into a board so easily?',
+   opts:['The force on it is larger','The very small area of the point gives a very large pressure','The point has a smaller pressure','The metal is heavy'],correct:1,
+   why:['Your thumb supplies the same force at both ends of the pin.',
+    'Correct: the same force over a tiny area means a huge pressure.',
+    'A smaller pressure would make it harder to push in.',
+    'The weight of the pin is far too small to matter.']},
+  {q:'A force of 20 N acts on an area of 4 cm<sup>2</sup>. What is the pressure in pascals?',
+   opts:['5 Pa','50 000 Pa','500 Pa','0.0008 Pa'],correct:1,
+   why:['5 Pa comes from 20 ÷ 4, using cm<sup>2</sup> as if it were m<sup>2</sup>.',
+    'Correct: 4 cm<sup>2</sup> = 0.0004 m<sup>2</sup>, and 20 ÷ 0.0004 = 50 000 Pa.',
+    'Check the conversion: divide cm<sup>2</sup> by 10 000, not by 100.',
+    'You multiplied by the area instead of dividing.']},
+  {q:'Which substance in the table has the lowest density?',
+   tbl:{head:['Substance','Mass / g','Volume / cm<sup>3</sup>'],rows:[['nylon','12.0','10.0'],['cotton','3.0','2.0'],['olive oil','9.0','10.0'],['water','5.0','5.0']]},
+   opts:['nylon','cotton','olive oil','water'],correct:2,
+   why:['Nylon: 12.0 ÷ 10.0 = 1.2 g/cm<sup>3</sup>.',
+    'Cotton: 3.0 ÷ 2.0 = 1.5 g/cm<sup>3</sup>, the highest here.',
+    'Correct: 9.0 ÷ 10.0 = 0.9 g/cm<sup>3</sup>, the lowest.',
+    'Water: 5.0 ÷ 5.0 = 1.0 g/cm<sup>3</sup>.']}
+ ],
+ must:[{t:'Describe how pressure varies with force and area in everyday examples'},
+  {t:'Define pressure as force per unit area; use <i class="v">p</i> = <i class="v">F</i>/<i class="v">A</i>'}]
+};
+
+/* ================= mixed quiz ================= */
+var MIXED=[
+ {sub:'P1.2',q:'The speed–time graph shows a trolley. How far does it travel in the 4.0 s?',
+  svg:sv(330,212,frame({xmax:5,ymax:8,xticks:[1,2,3,4,5],yticks:[2,4,6,8],xl:'time / s',yl:'speed / (m/s)'})+
+   '<polygon class="sv-fill" points="'+gx(0,5)+','+gy(0,8)+' '+gx(4,5)+','+gy(6,8)+' '+gx(4,5)+','+gy(0,8)+'"/>'+
+   '<polyline class="sv-ac" points="'+gx(0,5)+','+gy(0,8)+' '+gx(4,5)+','+gy(6,8)+'"/>'),
+  opts:['12 m','24 m','1.5 m','10 m'],correct:0,
+  why:['Correct: area = ½ × 4.0 × 6.0 = 12 m.',
+   '24 m is 4.0 × 6.0 — you forgot the ½ for a triangle.',
+   '1.5 is the acceleration in m/s<sup>2</sup>, not the distance.',
+   'Read the final speed as 6.0 m/s and use ½ × base × height.']},
+ {sub:'P1.5.1',q:'Which row is correctly recorded? (<i class="v">g</i> = 9.8 N/kg)',
+  tbl:{head:['','Mass','Weight'],rows:[['A','5 g','49 N'],['B','1 kg','9.8 N'],['C','10 kg','10 N'],['D','2 kg','2 kg']]},
+  opts:['A','B','C','D'],correct:1,
+  why:['5 g = 0.005 kg, so the weight is 0.049 N.',
+   'Correct: 1 kg × 9.8 N/kg = 9.8 N.',
+   '10 kg weighs 98 N.',
+   'Weight is a force and must be in newtons.']},
+ {sub:'P1.5.2',q:'The beam balances on a pivot at the 50 cm mark. At which mark does the 5.0 N force act?',
+  svg:beam({pivot:50,forces:[{at:20,lab:'4.0 N'},{at:60,lab:'6.0 N'},{at:76,lab:'5.0 N',q:true}]}),
+  opts:['12 cm','38 cm','62 cm','74 cm'],correct:2,
+  why:['12 cm is the distance <b>from the pivot</b>, not the mark on the beam.',
+   'That side would add to the anticlockwise moment, so the beam would not balance.',
+   'Correct: it needs 60 N cm clockwise, so 60 ÷ 5.0 = 12 cm past the pivot → 62 cm.',
+   '74 cm would give 5.0 × 24 = 120 N cm, far too much.']},
+ {sub:'P1.6.4',q:'Each ball is lifted in the same time. Which situation requires the greatest power?',
+  svg:lifts([{k:'A',w:'10 N',hl:'1.5 m',h:1.5},{k:'B',w:'20 N',hl:'1.0 m',h:1},{k:'C',w:'20 N',hl:'1.5 m',h:1.5},{k:'D',w:'10 N',hl:'1.0 m',h:1}]),
+  opts:['A','B','C','D'],correct:2,
+  why:['A: 10 × 1.5 = 15 J of work.',
+   'B: 20 × 1.0 = 20 J of work.',
+   'Correct: 20 × 1.5 = 30 J in the same time, so the greatest power.',
+   'D: 10 × 1.0 = 10 J, the least.']},
+ {sub:'P1.7',q:'A force of 24 N acts on an area of 0.30 m<sup>2</sup>. What is the pressure?',
+  opts:['80 Pa','7.2 Pa','0.0125 Pa','240 Pa'],correct:0,
+  why:['Correct: 24 ÷ 0.30 = 80 Pa.',
+   '7.2 is 24 × 0.30 — pressure is force <b>divided</b> by area.',
+   'That is area ÷ force, upside down.',
+   'Check the decimal: 24 ÷ 0.3 = 80, not 240.']},
+ {sub:'C2.4',q:'Which row correctly describes an ionic compound?',
+  tbl:{head:['','Melting point','Solid conducts?','Molten conducts?'],rows:[['A','high','no','yes'],['B','low','yes','yes'],['C','high','yes','no'],['D','low','no','no']]},
+  opts:['A','B','C','D'],correct:0,
+  why:['Correct: strong forces give a high melting point, and only molten or aqueous ionic compounds conduct.',
+   'Ionic compounds have <b>high</b> melting points and do not conduct as solids.',
+   'A solid ionic compound does <b>not</b> conduct — its ions are fixed.',
+   'The melting point is high, and it does conduct when molten.']},
+ {sub:'C7.1',q:'Which row is correct?',
+  tbl:{head:['','Indicator and solution','Colour'],rows:[['A','methyl orange in alkali','yellow'],['B','litmus in acid','blue'],['C','universal indicator at pH 7','purple'],['D','methyl orange in acid','yellow']]},
+  opts:['A','B','C','D'],correct:0,
+  why:['Correct: methyl orange is yellow in alkali and red in acid.',
+   'Acid turns litmus red.',
+   'pH 7 is green.',
+   'Methyl orange is <b>red</b> in acid.']},
+ {sub:'C5.1',q:'A reaction pathway diagram shows the products below the reactants. Which statement is correct?',
+  svg:pathway({r:58,p:20,k:82,exo:true}),
+  opts:['Endothermic, ΔH positive','Exothermic, ΔH negative','Endothermic, ΔH negative','Exothermic, ΔH positive'],correct:1,
+  why:['Products lower means energy was given out, so it is exothermic.',
+   'Correct: energy released to the surroundings, so ΔH is negative.',
+   'The ΔH sign is right but the name is wrong.',
+   'Exothermic is right but ΔH must be negative.']},
+ {sub:'B14.1',q:'A child has a sore throat caused by a virus. Which statement is correct?',
+  opts:['Antibiotics will kill the virus','Antibiotics will not affect the virus','Antibiotics make all viruses resistant','Antibiotics work only on resistant bacteria'],correct:1,
+  why:['Antibiotics act on bacteria, not viruses.',
+   'Correct: antibiotics kill bacteria but do not affect viruses.',
+   'Resistance develops in <b>bacteria</b>, not viruses.',
+   'Antibiotics are least effective against resistant bacteria.']},
+ {sub:'B12.1',q:'Which row describes respiration correctly?',
+  tbl:{head:['','Type','Oxygen used','Product in muscles'],rows:[['A','aerobic','no','lactic acid'],['B','anaerobic','yes','carbon dioxide'],['C','anaerobic','no','lactic acid'],['D','aerobic','no','carbon dioxide']]},
+  opts:['A','B','C','D'],correct:2,
+  why:['Aerobic respiration does use oxygen, and it does not make lactic acid.',
+   'Anaerobic respiration uses <b>no</b> oxygen.',
+   'Correct: no oxygen, and glucose → lactic acid in muscles.',
+   'Aerobic respiration uses oxygen.']}
+];
+
+/* ================= one-page recap ================= */
+var RECAP=[
+ {code:'C2.4',title:'Ions and ionic bonds',ac:'#6d28d9',rows:[
+  'Metal <b>loses</b> electrons → cation (+). Non-metal <b>gains</b> → anion (−).',
+  'Ionic bond = strong <b>electrostatic attraction</b> between opposite ions.',
+  'Giant lattice: alternating ions. High m.p./b.p., soluble in water.',
+  'Conducts when <b>molten or aqueous</b> (ions free to move), not as a solid.']},
+ {code:'C7.1',title:'Acids and bases',ac:'#0d9488',rows:[
+  'acid + metal → salt + <b>hydrogen</b>',
+  'acid + base/alkali → salt + <b>water</b>',
+  'acid + carbonate → salt + water + <b>carbon dioxide</b>',
+  'Litmus: acid red, alkali blue. Methyl orange: acid red, alkali yellow.',
+  'Universal indicator: red → green (pH 7) → purple. Alkali = soluble base.']},
+ {code:'C5.1',title:'Exothermic / endothermic',ac:'#ea580c',rows:[
+  'Exothermic: energy <b>out</b>, surroundings warmer, ΔH <b>negative</b>.',
+  'Endothermic: energy <b>in</b>, surroundings colder, ΔH <b>positive</b>.',
+  'E<sub>a</sub> = peak − reactants. ΔH = products − reactants.',
+  'Bond breaking = endothermic. Bond making = exothermic.']},
+ {code:'P1.2',title:'Motion',ac:'#2563eb',rows:[
+  '<b><i class="v">S</i> = <i class="v">D</i> ÷ <i class="v">T</i></b> (m/s) · <b><i class="v">A</i> = Δ<i class="v">S</i> ÷ Δ<i class="v">T</i></b> (m/s<sup>2</sup>)',
+  'Distance–time: gradient = <b>speed</b>; flat = at rest.',
+  'Speed–time: gradient = <b>acceleration</b>; area = <b>distance</b>.',
+  'Deceleration = negative acceleration. <i class="v">g</i> ≈ 9.8 m/s<sup>2</sup>.']},
+ {code:'P1.5.1',title:'Effects of forces',ac:'#4f46e5',rows:[
+  '<b><i class="v">F</i> = <i class="v">m</i> × <i class="v">A</i></b>, using the <b>resultant</b> force (N, kg, m/s<sup>2</sup>).',
+  'No resultant force → at rest or constant speed in a straight line.',
+  'Friction and drag oppose motion and cause heating.',
+  'Spring: <b><i class="v">k</i> = <i class="v">F</i> ÷ <i class="v">x</i></b> (N/m); straight line up to the limit of proportionality.']},
+ {code:'P1.5.2',title:'Turning effect',ac:'#0891b2',rows:[
+  '<b>moment = <i class="v">F</i> × <i class="v">d</i></b> (N m), <i class="v">d</i> perpendicular, from the <b>pivot</b>.',
+  'Balanced: anticlockwise moments = clockwise moments.',
+  'Equilibrium = no resultant force <b>and</b> no resultant moment.']},
+ {code:'P1.5.3',title:'Centre of gravity',ac:'#52525b',rows:[
+  'Point where the whole <b>weight</b> acts.',
+  'Regular uniform shapes: at the geometric <b>centre</b> (block, sphere, cylinder).']},
+ {code:'B10.1',title:'Diseases and immunity',ac:'#16a34a',rows:[
+  'Pathogen = disease-causing organism. Transmissible = passes host to host.',
+  'Direct: contact, blood, body fluids. Indirect: surfaces, food, animals, air.',
+  'Defences: skin, nose hairs, mucus, stomach acid, white blood cells.',
+  'Antibodies bind <b>specific antigens</b> (complementary shapes).',
+  'Vaccine: weakened pathogen/antigens → lymphocytes make antibodies → memory cells.']},
+ {code:'B14.1',title:'Drugs',ac:'#65a30d',rows:[
+  'Drug = substance that modifies or affects chemical reactions in the body.',
+  'Antibiotics kill <b>bacteria</b>, not viruses.',
+  'Resistant bacteria survive treatment; use antibiotics only when essential (MRSA).']},
+ {code:'B5.1',title:'Enzymes',ac:'#0e9488',rows:[
+  'Proteins that act as <b>biological catalysts</b>.',
+  'Substrate fits the <b>active site</b> → enzyme–substrate complex → products.',
+  'Rate rises to the <b>optimum</b>, then falls: active site <b>denatured</b>.',
+  'Wrong pH also denatures the enzyme.']},
+ {code:'B12.1',title:'Respiration',ac:'#a16207',rows:[
+  'Aerobic: glucose + oxygen → carbon dioxide + water.',
+  'C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6O<sub>2</sub> → 6CO<sub>2</sub> + 6H<sub>2</sub>O',
+  'Anaerobic in muscles: glucose → lactic acid; <b>much less</b> energy.',
+  'Oxygen debt: lactic acid → blood → <b>liver</b>, respired aerobically.']},
+ {code:'P1.6.1',title:'Energy',ac:'#e11d48',rows:[
+  'Stores: kinetic, gravitational potential, chemical, elastic, nuclear, electrostatic, internal.',
+  'Transfers: forces, electrical currents, heating, waves.',
+  '<b><i class="v">E</i><sub>k</sub> = ½ <i class="v">m</i> <i class="v">S</i><sup>2</sup></b> (J, kg, m/s).',
+  'Conservation: energy is transferred, never created or destroyed.']},
+ {code:'P1.6.2',title:'Work',ac:'#c026d3',rows:[
+  '<b><i class="v">W</i> = <i class="v">F</i> × <i class="v">D</i> = Δ<i class="v">E</i></b> (J, N, m).',
+  'Distance must be <b>along the force</b>. Work done = energy transferred.']},
+ {code:'P1.6.3',title:'Energy resources',ac:'#0369a1',rows:[
+  'Renewable: biofuels, water (waves, tides, hydro), geothermal, solar, wind.',
+  'Non-renewable: fossil fuels, nuclear fission.',
+  'Boiler + turbine + generator: fuels, biofuels, nuclear, geothermal.',
+  '<b>efficiency = (useful output ÷ total input) × 100%</b>; never above 100%.',
+  'Sun: nuclear <b>fusion</b>. Reactor: nuclear <b>fission</b>.']},
+ {code:'P1.6.4',title:'Power',ac:'#9333ea',rows:[
+  '<b><i class="v">P</i> = <i class="v">W</i> ÷ <i class="v">T</i> = Δ<i class="v">E</i> ÷ <i class="v">T</i></b> (W, J, s). 1 W = 1 J/s.',
+  'Same work in less time = more power.']},
+ {code:'P1.7',title:'Pressure',ac:'#dc2626',rows:[
+  '<b><i class="v">p</i> = <i class="v">F</i> ÷ <i class="v">A</i></b> (Pa, N, m<sup>2</sup>); <i class="v">F</i> = <i class="v">p</i> × <i class="v">A</i>.',
+  'Small area → big pressure. 1 m<sup>2</sup> = 10 000 cm<sup>2</sup>.',
+  'Density (practice paper): ρ = <i class="v">m</i> ÷ <i class="v">V</i>.']}
+];
+var CLASHES=[
+ {a:'<i class="v">P</i>',b:'power (W)',c:'<i class="v">p</i>',d:'pressure (Pa)'},
+ {a:'<i class="v">W</i>',b:'work done (J)',c:'W',d:'watt, the unit of power'},
+ {a:'<i class="v">A</i>',b:'acceleration (m/s<sup>2</sup>)',c:'<i class="v">A</i>',d:'area in <i class="v">p</i> = <i class="v">F</i>/<i class="v">A</i> (m<sup>2</sup>)'},
+ {a:'<i class="v">S</i>',b:'speed (m/s)',c:'<i class="v">s</i>',d:'distance, in the exam paper’s own letters'}
+];
+var CONVERTS=['500 g = 0.5 kg','50 cm = 0.50 m','4 cm<sup>2</sup> = 0.0004 m<sup>2</sup>','2.0 min = 120 s','1.2 kJ = 1200 J','1 kW = 1000 W','weight in N, mass in kg'];
+</script>
+<script>
+(function(){
+var LET=['A','B','C','D','E'];
+var ORDER=[];UNITS.forEach(function(u){u.subs.forEach(function(s){ORDER.push(s);});});
+
+function extBadge(on){return on?'<span class="ext">EXTENDED</span>':''}
+function tbl(t){
+  var s='<div class="tbl"><table><thead><tr>';
+  t.head.forEach(function(h){s+='<th>'+h+'</th>';});
+  s+='</tr></thead><tbody>';
+  t.rows.forEach(function(r){s+='<tr>';r.forEach(function(c,i){s+='<td'+(i===0?' class="rowlab"':'')+'>'+c+'</td>';});s+='</tr>';});
+  return s+'</tbody></table></div>';
+}
+function figure(v){
+  return '<figure class="fig"><div class="box">'+v.svg+'</div><figcaption>'+(v.ext?'<span class="ext">EXTENDED</span> ':'')+v.cap+'</figcaption></figure>';
+}
+function tableFig(t){
+  return '<figure class="fig">'+tbl(t)+'<figcaption>'+t.cap+'</figcaption></figure>';
+}
+function fboxHtml(f){
+  var plain=f.eq.replace(/<[^>]+>/g,'');
+  var s='<div class="fbox"><div class="fname">'+f.name+' '+extBadge(f.ext)+'</div><div class="eq'+(plain.length>26?' sm':'')+'">'+f.eq+'</div><div class="syms">';
+  (f.syms||[]).forEach(function(p){s+='<div><span class="s">'+p[0]+'</span><span>'+p[1]+'</span></div>';});
+  s+='</div>'+(f.note?'<div class="note">'+f.note+'</div>':'')+'</div>';
+  return s;
+}
+function flipsHtml(terms){
+  var s='<div class="flips">';
+  terms.forEach(function(t){
+    s+='<div class="flip"><button type="button" data-act="flip" aria-label="Show definition of '+t.t.replace(/<[^>]+>/g,'')+'">'+
+      '<span class="face f"><span class="term">'+t.t+'</span>'+(t.ext?'<span class="hint"><span class="ext">EXTENDED</span></span>':'')+'<span class="hint">tap to flip</span></span>'+
+      '<span class="face b"><span class="def">'+t.d+'</span></span></button></div>';
+  });
+  return s+'</div>';
+}
+function workHtml(w,key){
+  var s='<div class="work" data-work="'+key+'"><div class="lbl">Worked example '+(w.ext?'<span class="ext">EXTENDED</span>':'')+'</div>'+
+    '<div class="stem">'+w.stem+'</div>'+(w.svg?'<figure class="fig"><div class="box">'+w.svg+'</div></figure>':'')+'<div class="steps">';
+  w.steps.forEach(function(st,i){
+    s+='<div class="step'+(st.fin?' fin':'')+'" hidden><span class="k">'+(i+1)+'</span><span class="bd"><span class="h">'+st.h+'</span><span class="t">'+st.t+'</span></span></div>';
+  });
+  s+='</div><div class="btnrow no-print"><button class="btn" type="button" data-act="step">Next step</button>'+
+    '<button class="btn ghost" type="button" data-act="rework" hidden>Start again</button>'+
+    '<span class="prog">0 / '+w.steps.length+'</span></div></div>';
+  return s;
+}
+function watchHtml(w){
+  var s='<div class="watch">';
+  w.forEach(function(r){s+='<div class="wrow"><span class="x"><span class="ic">❌</span><span>'+r.x+'</span></span><span class="y"><span class="ic">✅</span><span>'+r.v+'</span></span></div>';});
+  return s+'</div>';
+}
+function qHtml(q,i,ns){
+  var s='<div class="q" data-q="'+ns+':'+i+'"'+(q.type==='num'?' data-num="'+q.ans+'" data-tol="'+(q.tol||0.01)+'"':'')+'>';
+  s+='<div class="qtop"><span class="qn">Q'+(i+1)+'</span><span class="qt">'+q.q+' '+extBadge(q.ext)+(q.sub?' <span class="qn">'+q.sub+'</span>':'')+'</span></div>';
+  if(q.svg){s+='<figure class="fig"><div class="box">'+q.svg+'</div></figure>';}
+  if(q.tbl){s+=tbl(q.tbl);}
+  if(q.type==='num'){
+    s+='<div class="numrow"><input type="text" inputmode="decimal" id="in-'+ns+'-'+i+'" aria-label="Your answer" placeholder="answer">'+
+      '<span class="uni">'+(q.unit||'')+'</span><button class="btn no-print" type="button" data-act="checknum">Check</button></div>';
+    s+='<div class="fb" hidden></div><ol class="sol" hidden>';
+    (q.sol||[]).forEach(function(l){s+='<li>'+l+'</li>';});
+    s+='</ol>';
+  }else{
+    s+='<div class="opts">';
+    q.opts.forEach(function(o,j){
+      var body=(String(o).trim()===LET[j])?'':'<span>'+o+'</span>';
+      s+='<button class="opt" type="button" data-act="pick" data-i="'+j+'" data-correct="'+(j===q.correct?1:0)+'" aria-label="Option '+LET[j]+'"><span class="k">'+LET[j]+'</span>'+body+'</button>';
+    });
+    s+='</div><div class="fb" hidden></div>';
+  }
+  return s+'</div>';
+}
+function mustHtml(m){
+  var s='<details class="must no-print"><summary>What you must be able to do ('+m.length+')</summary><ul>';
+  m.forEach(function(p){s+='<li>'+(p.ext?'<span class="ext">E</span>':'')+p.t+'</li>';});
+  return s+'</ul></details>';
+}
+function subView(id){
+  var d=SUBS[id],s='';
+  s+='<section class="view" id="v-'+id+'" style="--ac-raw:'+d.ac+'" hidden>';
+  s+='<div class="subhead"><div class="tagrow"><span class="tag">'+d.code+'</span><span class="tag sci">'+d.unit+' · '+d.sci+'</span></div><h2 class="title">'+d.title+'</h2></div>';
+  s+='<div class="bigidea"><div class="lbl">Big idea</div><div class="t">'+d.big+'</div></div>';
+  s+='<div class="sec"><div class="lbl">Visual</div>';
+  (d.visuals||[]).forEach(function(v){s+=figure(v);});
+  (d.tables||[]).forEach(function(t){s+=tableFig(t);});
+  s+='</div>';
+  if(d.fbox){s+='<div class="sec"><div class="lbl">Formulas</div>';d.fbox.forEach(function(f){s+=fboxHtml(f);});s+='</div>';}
+  s+='<div class="sec"><div class="lbl">Key terms</div>'+flipsHtml(d.terms)+'</div>';
+  s+=workHtml(d.work,id);
+  if(d.work2){s+=workHtml(d.work2,id+'b');}
+  s+='<div class="sec"><div class="lbl">Watch out</div>'+watchHtml(d.watch)+'</div>';
+  s+='<div class="sec"><div class="lbl">Quick check</div>';
+  d.qc.forEach(function(q,i){s+=qHtml(q,i,id);});
+  s+='</div>';
+  s+=mustHtml(d.must);
+  s+='<div class="btnrow no-print">'+navBtns(id)+'</div>';
+  return s+'</section>';
+}
+function navBtns(id){
+  var i=ORDER.indexOf(id),s='';
+  if(i>0){s+='<button class="btn ghost" type="button" data-go="'+ORDER[i-1]+'">← '+SUBS[ORDER[i-1]].code+'</button>';}
+  if(i<ORDER.length-1){s+='<button class="btn" type="button" data-go="'+ORDER[i+1]+'">'+SUBS[ORDER[i+1]].code+' →</button>';}
+  else{s+='<button class="btn" type="button" data-go="quiz">Mixed quiz →</button>';}
+  return s;
+}
+function homeView(){
+  var s='<section class="view" id="v-home" style="--ac-raw:#2563eb">';
+  s+='<div class="homehero"><h1>Units S2.6 – S2.10</h1><div class="sub">16 subtopics · IGCSE Co-ordinated Sciences 0654 · <span class="ext">EXTENDED</span> marks the Extended-tier points</div></div>';
+  UNITS.forEach(function(u){
+    s+='<div class="unitcard" style="--ac-raw:'+u.ac+'"><div class="uh"><span class="uc">'+u.code+'</span><span class="un">'+u.name+'</span></div><div class="sublist">';
+    u.subs.forEach(function(k){
+      s+='<button class="subbtn" type="button" data-go="'+k+'" style="--ac-raw:'+SUBS[k].ac+'"><span class="c">'+SUBS[k].code+'</span><span class="t">'+SUBS[k].title+'</span></button>';
+    });
+    s+='</div></div>';
+  });
+  s+='<div class="twocol"><button class="subbtn" type="button" data-go="quiz" style="--ac-raw:#0f766e"><span class="c">QUIZ</span><span class="t">Mixed quiz · '+MIXED.length+' questions</span></button>'+
+     '<button class="subbtn" type="button" data-go="recap" style="--ac-raw:#475569"><span class="c">RECAP</span><span class="t">One-page recap · printable</span></button></div>';
+  return s+'</section>';
+}
+function quizView(){
+  var s='<section class="view" id="v-quiz" style="--ac-raw:#0f766e" hidden>';
+  s+='<div class="subhead"><div class="tagrow"><span class="tag">MIXED QUIZ</span><span class="tag sci">S2.6 – S2.10</span></div><h2 class="title">'+MIXED.length+' questions, exam style</h2></div>';
+  s+='<div class="btnrow no-print"><span class="prog" id="qprog">Question 1 of '+MIXED.length+'</span><span class="prog" id="qscore">Score 0</span></div>';
+  s+='<div class="bar no-print"><i id="qbar" style="width:0%"></i></div>';
+  s+='<div id="qwrap">';
+  MIXED.forEach(function(q,i){s+=qHtml(q,i,'mix');});
+  s+='</div>';
+  s+='<div class="btnrow no-print"><button class="btn" type="button" data-act="qnext" hidden>Next question</button></div>';
+  s+='<div class="scorebox no-print" id="qdone" hidden></div>';
+  s+='<div class="btnrow no-print"><button class="btn ghost" type="button" data-go="recap">One-page recap →</button></div>';
+  return s+'</section>';
+}
+function recapView(){
+  var s='<section class="view" id="v-recap" style="--ac-raw:#475569" hidden>';
+  s+='<div class="subhead"><div class="tagrow"><span class="tag">RECAP</span></div><h2 class="title">Everything on one page</h2></div>';
+  s+='<div class="recapgrid">';
+  RECAP.forEach(function(r){
+    s+='<div class="rc" style="--ac-raw:'+r.ac+'"><div class="rh"><span class="c">'+r.code+'</span><span class="t">'+r.title+'</span></div><ul>';
+    r.rows.forEach(function(x){s+='<li>'+x+'</li>';});
+    s+='</ul></div>';
+  });
+  s+='<div class="rc" style="--ac-raw:#111827"><div class="rh"><span class="c">⚠</span><span class="t">Letters that clash</span></div><div class="tbl"><table><tbody>';
+  CLASHES.forEach(function(c){s+='<tr><td class="rowlab">'+c.a+'</td><td>'+c.b+'</td><td class="rowlab">'+c.c+'</td><td>'+c.d+'</td></tr>';});
+  s+='</tbody></table></div></div>';
+  s+='<div class="rc" style="--ac-raw:#111827"><div class="rh"><span class="c">UNITS</span><span class="t">Convert before you substitute</span></div><ul>';
+  CONVERTS.forEach(function(c){s+='<li>'+c+'</li>';});
+  s+='</ul></div>';
+  return s+'</div></section>';
+}
+
+/* ---------- build ---------- */
+var views=document.getElementById('views');
+var html=homeView();
+ORDER.forEach(function(id){html+=subView(id);});
+html+=quizView()+recapView();
+views.innerHTML=html;
+
+var chips=document.getElementById('chips'),ch='';
+UNITS.forEach(function(u){
+  ch+='<span class="unitsep">'+u.code+'</span>';
+  u.subs.forEach(function(k){
+    ch+='<button class="chip" type="button" data-go="'+k+'" style="--ac-raw:'+SUBS[k].ac+'"><b>'+SUBS[k].code+'</b> '+SUBS[k].title+'</button>';
+  });
+});
+ch+='<span class="unitsep">END</span><button class="chip" type="button" data-go="quiz" style="--ac-raw:#0f766e"><b>Mixed quiz</b></button>'+
+    '<button class="chip" type="button" data-go="recap" style="--ac-raw:#475569"><b>Recap</b></button>';
+chips.innerHTML=ch;
+
+/* ---------- flip card sizing ---------- */
+function sizeFlips(root){
+  var fs=[].slice.call((root||document).querySelectorAll('.flip'));
+  if(!fs.length){return;}
+  fs.forEach(function(f){f.classList.add('meas');});
+  var hs=fs.map(function(f){
+    var h=0;[].slice.call(f.querySelectorAll('.face')).forEach(function(x){h=Math.max(h,x.getBoundingClientRect().height);});
+    return Math.ceil(h)+2;
+  });
+  fs.forEach(function(f,i){f.classList.remove('meas');if(hs[i]>20){f.style.minHeight=hs[i]+'px';}});
+}
+var rt;
+window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){
+  var v=document.querySelector('.view:not([hidden])');if(v){sizeFlips(v);}
+},180);});
+
+/* ---------- routing ---------- */
+function show(id){
+  var el=document.getElementById('v-'+id);
+  if(!el){id='home';el=document.getElementById('v-home');}
+  [].slice.call(document.querySelectorAll('.view')).forEach(function(v){v.hidden=(v!==el);});
+  [].slice.call(document.querySelectorAll('.chip')).forEach(function(c){
+    c.setAttribute('aria-current',c.getAttribute('data-go')===id?'true':'false');
+  });
+  sizeFlips(el);
+  var cur=document.querySelector('.chip[aria-current="true"]');
+  if(cur&&cur.scrollIntoView){cur.scrollIntoView({block:'nearest',inline:'center'});}
+  window.scrollTo(0,0);
+}
+function go(id){
+  if(id==='home'){if(location.hash){location.hash='';}else{show('home');}return;}
+  if(location.hash.slice(1)===id){show(id);}else{location.hash=id;}
+}
+window.addEventListener('hashchange',function(){show(location.hash.slice(1)||'home');});
+document.getElementById('btn-home').addEventListener('click',function(){go('home');});
+
+/* ---------- interaction ---------- */
+var mixState={i:0,score:0,done:0,marks:[]};
+function fbText(q,el,picked,correct){
+  var d=el.querySelector('.fb');
+  if(picked===correct){
+    d.className='fb good';d.innerHTML='<b>Correct.</b> '+q.why[correct];
+  }else{
+    d.className='fb bad';
+    d.innerHTML='<b>Not quite.</b> '+q.why[picked]+'<br><b>'+LET[correct]+' is right:</b> '+q.why[correct];
+  }
+  d.hidden=false;
+}
+function qData(el){
+  var k=el.getAttribute('data-q').split(':'),i=parseInt(k[1],10);
+  return k[0]==='mix'?MIXED[i]:SUBS[k[0]].qc[i];
+}
+document.addEventListener('click',function(ev){
+  var t=ev.target.closest?ev.target.closest('[data-act],[data-go]'):null;
+  if(!t){return;}
+  var act=t.getAttribute('data-act'),goid=t.getAttribute('data-go');
+  if(goid){go(goid);return;}
+  if(act==='flip'){t.parentNode.classList.toggle('on');return;}
+  if(act==='step'){
+    var w=t.closest('.work'),steps=[].slice.call(w.querySelectorAll('.step')),n=0,j;
+    for(j=0;j<steps.length;j++){if(steps[j].hidden){steps[j].hidden=false;n=j+1;break;}}
+    if(!n){n=steps.length;}
+    w.querySelector('.prog').textContent=n+' / '+steps.length;
+    w.querySelector('[data-act="rework"]').hidden=false;
+    if(n>=steps.length){t.disabled=true;t.textContent='All steps shown';}
+    return;
+  }
+  if(act==='rework'){
+    var w2=t.closest('.work');
+    [].slice.call(w2.querySelectorAll('.step')).forEach(function(s){s.hidden=true;});
+    var b=w2.querySelector('[data-act="step"]');b.disabled=false;b.textContent='Next step';
+    w2.querySelector('.prog').textContent='0 / '+w2.querySelectorAll('.step').length;
+    t.hidden=true;return;
+  }
+  if(act==='pick'){
+    var qel=t.closest('.q');
+    if(qel.getAttribute('data-done')==='1'){return;}
+    qel.setAttribute('data-done','1');
+    var q=qData(qel),picked=parseInt(t.getAttribute('data-i'),10),cor=q.correct;
+    [].slice.call(qel.querySelectorAll('.opt')).forEach(function(o,j){
+      if(j===cor){o.classList.add('good');}
+      else if(j===picked){o.classList.add('bad');}
+      else{o.classList.add('dim');}
+    });
+    fbText(q,qel,picked,cor);
+    if(qel.getAttribute('data-q').indexOf('mix:')===0){markMix(qel,picked===cor);}
+    return;
+  }
+  if(act==='checknum'){
+    var qe=t.closest('.q');
+    if(qe.getAttribute('data-done')==='1'){return;}
+    var inp=qe.querySelector('input'),val=parseFloat(String(inp.value).replace(',','.'));
+    var want=parseFloat(qe.getAttribute('data-num')),tol=parseFloat(qe.getAttribute('data-tol'));
+    var fb=qe.querySelector('.fb');
+    if(isNaN(val)){fb.className='fb';fb.innerHTML='Type a number first.';fb.hidden=false;return;}
+    qe.setAttribute('data-done','1');
+    var ok=Math.abs(val-want)<=tol;
+    fb.className='fb '+(ok?'good':'bad');
+    fb.innerHTML=ok?'<b>Correct.</b> See the working below.':'<b>Not quite.</b> The answer is <b>'+want+'</b>. Follow the working below.';
+    fb.hidden=false;
+    qe.querySelector('.sol').hidden=false;
+    t.disabled=true;inp.readOnly=true;
+    if(qe.getAttribute('data-q').indexOf('mix:')===0){markMix(qe,ok);}
+    return;
+  }
+  if(act==='qnext'){
+    mixState.i++;
+    if(mixState.i>=MIXED.length){finishMix();}else{showMix();}
+    return;
+  }
+  if(act==='qretry'){
+    mixState={i:0,score:0,done:0,marks:[]};
+    [].slice.call(document.querySelectorAll('#qwrap .q')).forEach(function(qe){
+      qe.removeAttribute('data-done');
+      [].slice.call(qe.querySelectorAll('.opt')).forEach(function(o){o.className='opt';});
+      var f=qe.querySelector('.fb');if(f){f.hidden=true;f.className='fb';}
+    });
+    document.getElementById('qdone').hidden=true;
+    showMix();return;
+  }
+},false);
+
+function markMix(qel,ok){
+  var i=parseInt(qel.getAttribute('data-q').split(':')[1],10);
+  mixState.marks[i]=ok;mixState.done++;
+  if(ok){mixState.score++;}
+  document.getElementById('qscore').textContent='Score '+mixState.score;
+  document.querySelector('[data-act="qnext"]').hidden=false;
+  document.querySelector('[data-act="qnext"]').textContent=(mixState.i>=MIXED.length-1)?'See my score':'Next question';
+}
+function showMix(){
+  [].slice.call(document.querySelectorAll('#qwrap .q')).forEach(function(qe,i){qe.hidden=(i!==mixState.i);});
+  document.getElementById('qprog').textContent='Question '+(mixState.i+1)+' of '+MIXED.length;
+  document.getElementById('qscore').textContent='Score '+mixState.score;
+  document.getElementById('qbar').style.width=Math.round((mixState.i/MIXED.length)*100)+'%';
+  var nb=document.querySelector('[data-act="qnext"]');
+  var cur=document.querySelectorAll('#qwrap .q')[mixState.i];
+  nb.hidden=!(cur&&cur.getAttribute('data-done')==='1');
+  nb.textContent=(mixState.i>=MIXED.length-1)?'See my score':'Next question';
+}
+function finishMix(){
+  [].slice.call(document.querySelectorAll('#qwrap .q')).forEach(function(qe){qe.hidden=true;});
+  document.querySelector('[data-act="qnext"]').hidden=true;
+  document.getElementById('qbar').style.width='100%';
+  document.getElementById('qprog').textContent='Finished';
+  var box=document.getElementById('qdone'),s='';
+  s+='<div class="scorebig">'+mixState.score+' / '+MIXED.length+'</div>';
+  s+='<div class="rev">';
+  MIXED.forEach(function(q,i){
+    s+='<div><span>'+(mixState.marks[i]?'✅':'❌')+'</span><span>Q'+(i+1)+' · '+q.sub+'</span></div>';
+  });
+  s+='</div><div class="btnrow"><button class="btn" type="button" data-act="qretry">Try again</button></div>';
+  box.innerHTML=s;box.hidden=false;
+}
+showMix();
+show(location.hash.slice(1)||'home');
+})();
+</script>
+
+</body>
+</html>
